@@ -1,5 +1,5 @@
 "set guifont=Monaco       " Font family and font size.
-set guifont=Inconsolata:h12       " Font family and font size.
+set guifont=Inconsolata:h10       " Font family and font size.
 set antialias                     " MacVim: smooth fonts.
 
 set encoding=utf-8                " Use UTF-8 everywhere.
