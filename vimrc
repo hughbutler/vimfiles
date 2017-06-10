@@ -6,6 +6,9 @@ silent! call pathogen#runtime_append_all_bundles()
 syntax enable                     " Turn on syntax highlighting.
 filetype plugin indent on         " Turn on file type detection.
 
+set nobackup                      " Disable swaps & backups
+set noswapfile
+
 set showcmd                       " Display incomplete commands.
 set showmode                      " Display the mode you're in.
 
