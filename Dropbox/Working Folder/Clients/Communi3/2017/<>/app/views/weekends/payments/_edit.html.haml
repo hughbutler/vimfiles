@@ -1,0 +1,102 @@
+.innerPopup
+  %h1{:style => "margin: 0 0 5px;"}= name_of @attendee.person
+  -# - if attendee.person.address.present?
+    %p= attendee.person.address.html_safe
+  %hr/
+  .row
+    .three.columns
+      %fieldset
+        %legend Attendance
+
+        %ul#meetings
+
+          - @weekend.meetings.each_with_index do |meeting, i|
+
+            %li{ data: { "meeting-id": "#{meeting.id}", "person-id": "#{@attendee.person.id}" } }
+              = link_to "<span class='icon checkbox #{'checked' if meeting.has_attendee?(@attendee.person)}'></span> MEETING #{number_to_word(i+1).upcase}".html_safe,
+                toggle_attendance_weekend_meeting_path(@weekend.id, meeting.id, person_id: @attendee.person.id, format: :json),
+                class: 'remote'
+
+    .four.columns
+      %fieldset
+        %legend Weekend Position(s)
+
+        = form_for @attendee, url: weekend_attendee_path(@attendee.weekend , @attendee), remote: true do |f|
+          .row.input
+            = select_block f, :position_id, "Primary Position", positions, 12, { include_blank: true }, { "data-module": 'autosave' }
+          .row.input
+            = select_block f, :aux_position_id, "Add'l Position (Optional)", positions, 12, { include_blank: true }, { "data-module": 'autosave' }
+
+      %fieldset
+        %legend Financial Assistance
+
+        = form_for @attendee, url: weekend_attendee_path(@attendee.weekend , @attendee), remote: true do |f|
+          .row.input
+            = checkbox_block f, :fa_needed, 'Requested', 4, { "data-module": 'autosave' }
+            = checkbox_block f, :fa_granted, 'Granted', 8, { "data-module": 'autosave' }
+          .row.input
+            = textfield_block f, :fa_amount_needed, 'Requested Amount ($)', 12, { "data-module": 'autosave' }
+          .row.input
+            = textfield_block f, :fa_amount_granted, 'Granted Amount ($)', 12, { "data-module": 'autosave' }
+
+    .four.columns
+
+      %fieldset
+        %legend Payment
+
+        = form_for @weekend.payments.new, url: weekend_payments_path(@weekend.id), remote: true do |f|
+
+          = f.hidden_field :person_id, value: @attendee.person.id
+
+          .row.input
+            = textfield_block f, :amount, 'Amount ($)', 6
+            = select_block f, :payment_type, nil, ['donation', 'team fees'], 6
+          .row.input
+            = textfield_block f, :note
+
+          = submit_button 'Add'
+
+    -# = simple_form_for Payment.new, :html => {:id => 'add_payment', :class => 'payment ajax'} do |f|
+    -#   .notification.success{:style => "position:absolute;bottom:66px;right: 10px; padding:0;display:none;"}
+    -#   = f.input :community_id, :as => :hidden, :input_html => { :value => community_id }
+    -#   = f.input :person_id, :as => :hidden, :input_html => { :value => attendee.person.id }
+    -#   = f.input :event_id, :as => :hidden, :input_html => { :value => @weekend.id }
+    -#   - f.input :amount, :as => :string, :label => false, :placeholder => '0', :input_html => { :value => attendee.remaining_fees, :class => 'amount', 'data-remaining' => remaining_fees( attendee.person, @weekend ) }
+    -#   $#{f.input :amount, :as => :string, :label => false, :placeholder => '0', :input_html => { :value => 0, :class => 'amount', 'data-remaining' => remaining_fees( attendee.person, @weekend ) }} applied to #{f.input :payment_type, :collection => ['team fees', 'donation'], :include_blank => false, :label => false, :input_html => { :class => 'payment_type' }}
+    -#   \#{f.submit 'Add'}
+    -#   %br/
+    -#   = f.input :note, :as => :string, :placeholder => 'enter a note...', :label => false, :input_html => { :class => 'note', :style => 'display:block; width:225px; margin: 10px 0 0; position: absolute; bottom: 7px; left: 10px;' }
+
+-# %fieldset.person_details.popup{:id => "person_#{attendee.person.id}_details"}
+  %h2{:style => "margin: 0 0 5px;"}= name_of attendee.person
+  - if attendee.person.address.present?
+    %p= attendee.person.address.html_safe
+  %div
+    %hr/
+    %h3 Update Attendance
+    %p Click on the buttons to mark attendance.
+    %ul.inline
+      %li= render :partial => 'form', :locals => {:person => attendee.person, :meeting => @weekend.meetings[0] }
+      %li= render :partial => 'form', :locals => {:person => attendee.person, :meeting => @weekend.meetings[1] }
+      %li= render :partial => 'form', :locals => {:person => attendee.person, :meeting => @weekend.meetings[2] }
+      %li= render :partial => 'form', :locals => {:person => attendee.person, :meeting => @weekend.meetings[3] }
+  %div
+    %hr/
+    %h3 Weekend Position(s)
+    -# = simple_form_for [@weekend, attendee] do |f|
+    -#   = f.association :position, :as => :select, :collection => @positions, :label => 'Primary Position'
+    -#   = f.association :aux_position, :as => :select, :collection => @positions, :label => 'Add\'l Position (Optional)'
+  %div
+    %hr/
+    %h3 Enter Payment
+    %p Add a payment.
+    -# = simple_form_for Payment.new, :html => {:id => 'add_payment', :class => 'payment ajax'} do |f|
+    -#   .notification.success{:style => "position:absolute;bottom:66px;right: 10px; padding:0;display:none;"}
+    -#   = f.input :community_id, :as => :hidden, :input_html => { :value => community_id }
+    -#   = f.input :person_id, :as => :hidden, :input_html => { :value => attendee.person.id }
+    -#   = f.input :event_id, :as => :hidden, :input_html => { :value => @weekend.id }
+    -#   - f.input :amount, :as => :string, :label => false, :placeholder => '0', :input_html => { :value => attendee.remaining_fees, :class => 'amount', 'data-remaining' => remaining_fees( attendee.person, @weekend ) }
+    -#   $#{f.input :amount, :as => :string, :label => false, :placeholder => '0', :input_html => { :value => 0, :class => 'amount', 'data-remaining' => remaining_fees( attendee.person, @weekend ) }} applied to #{f.input :payment_type, :collection => ['team fees', 'donation'], :include_blank => false, :label => false, :input_html => { :class => 'payment_type' }}
+    -#   \#{f.submit 'Add'}
+    -#   %br/
+    -#   = f.input :note, :as => :string, :placeholder => 'enter a note...', :label => false, :input_html => { :class => 'note', :style => 'display:block; width:225px; margin: 10px 0 0; position: absolute; bottom: 7px; left: 10px;' }

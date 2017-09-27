@@ -1,0 +1,10 @@
+= render 'shared/weekends'
+- if @event.open?
+  = render 'event_record_attendance'
+- elsif @event.processing_candidates?
+  = render 'event_processing_candidates'
+- elsif @event.closed?
+  = render 'event_is_closed'
+- else
+  %p
+    We're sorry, but the weekend hasn't started yet. Come back after #{format_date @event.start_date} to mark attendance and close out the weekend.

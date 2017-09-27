@@ -1,0 +1,51 @@
+@mixin tablet {
+    @media (min-width: #{$breakpointTablet}) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: #{$breakpointDesktop}) {
+        @content;
+    }
+}
+
+@mixin wide {
+    @media (min-width: #{$breakpointDesktopWide}) {
+        @content;
+    }
+}
+
+
+@mixin only-mobile {
+    @media (max-width: #{$tablet-width - 1px}) {
+        @content;
+    }
+}
+@mixin only-tablet {
+    @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+        @content;
+    }
+}
+
+@mixin up-to-tablet {
+    @media (max-width: #{$desktop-width - 1px}) {
+        @content;
+    }
+}
+
+// @mixin respond-to($media) {
+//   @if $media == mobile {
+//     @media only screen and (max-width: $breakpointMobile) { @content; }
+//   }
+//   @else if $media == tablet {
+//     @media only screen and (max-width: $breakpointTablet) { @content; }
+//   }
+//   @else if $media == tablet-only {
+//     @media only screen and (min-width: $breakpointMobile + 1) and (max-width: $breakpointTablet - 1) { @content; }
+//   }
+//   @else if $media == wide-screens {
+//     @media only screen and (min-width: $breakpointWide) { @content; }
+//   }
+// }
+//

@@ -1,0 +1,7 @@
+%tr.attender_row
+  %td
+    = simple_form_for [@event, attendee], :html => {:class => 'table_form'} do |f|
+      = f.input :attended, :label => false, :input_html => {:class => 'change_on_select'}
+      = f.input :event_id, :as => :hidden, :input_html => { :value => @event.id }
+  %td= link_to attendee.person.last_name+', '+attendee.person.first_name, attendee.person
+  %td{:style => "color:#ccc;text-align:right;padding-right:15px;"}= attendee.candidate? ? 'Candidate' : attendee.position.to_s

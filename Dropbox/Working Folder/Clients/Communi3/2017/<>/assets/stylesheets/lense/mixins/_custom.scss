@@ -1,0 +1,107 @@
+$break-small: 320px;
+$break-large: 1024px;
+$break-large: 1200px;
+$break-xlarge: 1400px;
+
+$break-mobile: 480px;
+$break-tablet: 768px;
+
+@mixin respond-to($media) {
+  @if $media == mobile {
+    @media only screen and (max-width: $break-mobile) { @content; }
+  }
+  @else if $media == tablet {
+    @media only screen and (max-width: $break-tablet) { @content; }
+  }
+  @else if $media == tablet-only {
+    @media only screen and (min-width: $break-small + 1) and (max-width: $break-large - 1) { @content; }
+  }
+  @else if $media == wide-screens {
+    @media only screen and (min-width: $break-large) { @content; }
+  }
+  @else if $media == xwide-screens {
+    @media only screen and (min-width: $break-xlarge) { @content; }
+  }
+}
+
+@mixin button_styles() {
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 20px;
+  padding: 16px;
+  text-align: center;
+  text-decoration: none;
+  @include text-shadow(rgba(0, 0, 0, .1) 0px 2px);
+  @include transition(all 0.25s ease);
+
+  &.small {
+    font-size: 12px;
+    line-height: 16px;
+    padding: 4px 8px;
+  }
+
+  &:active {
+    /* Rectangle 18 Copy 4: */
+    background-image: linear-gradient(-180deg, #8EEFF4 3%, #7AD8E3 99%);
+    border: 1px solid #2ED0E4;
+  }
+  &:hover {
+    background-image: linear-gradient(-180deg, #00D5E0 1%, #00B0C5 99%);
+    border: 1px solid #008697;
+  }
+}
+
+@mixin clearfix() {
+  &:after {
+    content: ".";
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+  }
+}
+
+@function is-valid-length($value) {
+  @return (type-of($value) == "number" and not unitless($value))
+       or (index(auto initial inherit 0, $value) != false);
+}
+
+@mixin position($position, $args: ()) {
+  $offsets: top right bottom left;
+  position: $position;                                               // 1
+
+  @each $offset in $offsets {                                        // 3
+    $index: index($args, $offset);                                   // 4
+
+    @if $index {                                                     // 5
+      @if $index == length($args) {                                  // 6
+        #{$offset}: 0;                                               // 7
+      }
+      @else {                                                        // 8
+        $next: nth($args, $index + 1);                               // 9
+        @if is-valid-length($next) {                                 // 10
+          #{$offset}: $next;                                         // 11
+        }
+        @else if index($offsets, $next) {                            // 12
+          #{$offset}: 0;                                             // 13
+        }
+        @else {                                                      // 14
+          @warn "Invalid value `#{$next}` for offset `#{$offset}`."; // 15
+        }
+      }
+    }
+  }
+}
+
+@mixin absolute($args: ()) {
+  @include position(absolute, $args);
+}
+
+@mixin fixed($args: ()) {
+  @include position(fixed, $args);
+}
+
+@mixin relative($args: ()) {
+  @include position(relative, $args);
+}
+

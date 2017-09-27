@@ -1,0 +1,15 @@
+= render "menu"
+- @mail_templates.each do |mail_template|
+  %fieldset
+    %legend
+      = mail_template
+      = link_to 'edit', edit_settings_mail_template_path(mail_template)
+    %p
+      %strong From Address
+    %p.faux_input= mail_template.from_address
+    %p
+      %strong Subject
+    %p.faux_input= mail_template.subject
+    %p
+      %strong Body
+    %p.faux_input= to_html mail_template.blurb

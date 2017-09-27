@@ -1,0 +1,31 @@
+/*
+
+Alerts
+
+[00] Alerts & Notices
+
+------------------------------------------------- */
+
+/* [01] Alerts & Notices
+--------------------------------------------------------------------------------------- //// */
+.alertBar,
+.noticeBar {
+  @include fixed(top 0 right 0 left 0);
+  background: rgba(151, 214, 104, 0.95);
+  color: white;
+  // height: 0;
+  // line-height: 0;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -.1px;
+  margin: 0;
+  // opacity: 0;
+  padding: 4px;
+  text-align: center;
+  width: 100%;
+  z-index: 1000;
+
+  &.alertBar {
+    background: $colorRed;
+  }
+}

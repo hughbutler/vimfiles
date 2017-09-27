@@ -1,0 +1,124 @@
+/*
+
+Table of contents:
+
+[00] Animations
+[01] Fonts
+[02] Colors
+[03] Breakpoints
+[04] Gutters/Spacing
+[05] Custom Variables
+
+------------------------------------------------- */
+
+// /*
+//  * Gutters
+//
+// $rowGutter: 20px;
+// $columnGutter: 12px;
+//
+// /* Form
+// $placeholderColor: #777;
+// $formInputBackgroundColor: #fff;
+//
+// /*
+//  * Official Colors
+//
+//
+// /* Text
+// $textHeadlineColor: #242424;
+// $textDefaultColor: #636363;
+// $linkColor: #798AC3;
+//
+// $buttonBackgroundColor: #72747B;
+//
+// /* Template
+// $topBarBackground: #FCFDFE;
+// $topBarMainLinkTextColor: $linkColor;
+// $topBarBorderColor: #CCD1E0;
+//
+// $borderGreyColor: #F0F0F0;
+//
+// /* Boxes
+// $boxBackgroundColor: #FFFCDA;
+// $boxBackgroundColor: #FFF;
+// $boxBackgroundAltColor: #F9F5CE;
+// $boxBorderColor: #CAE5E3;
+//
+// /* Input
+// $inputBorder: #ddd;
+// $selectBackgroundColor: #fff;
+
+/* [00] Animations
+------------------------------------------------- */
+// $easing: cubic-bezier(.31, .05, .06, .88);
+$animEasing: cubic-bezier(0.23, 1, 0.32, 1);
+$animSpeed: 0.3s;
+
+$animHideEasing: cubic-bezier(0.23, 1, 0.32, 1);
+$animHideSpeed: 0.3s;
+
+/* [01] Fonts
+------------------------------------------------- */
+$fontFamily: "Lato", sans-serif;
+$fontIconFamily: "Communi3-Regular";
+$heavy: 900;
+$bold: 700;
+$normal: 400;
+$thin: 300;
+
+/* [02] Colors
+------------------------------------------------- */
+$colorBlack: #282E3D;
+$colorGrey: #ACB1BE;
+$colorWhite: #fff;
+$colorRed: #c3312b;
+
+$colorForeground: #636363;
+$colorBackground: #EBE9E9;
+$colorPlaceholder: #777;
+
+$colorText: $colorForeground;
+$colorLinks: #798AC3;
+
+$colorVarBlue: #848DCB;
+$colorVarBlueOffset: #8894E3;
+
+$colorVarCircleOutline: #b6b8cc;
+
+$colorVarLightBlue: #E0E2F2;
+$colorVarLightBlueOffset: #E5E8F8;
+
+$iconColorDefault: red;
+
+/* [03] Break Points
+------------------------------------------------- */
+$breakpointMobile: 480px;
+$breakpointTablet: 768px;
+$breakpointDesktop: 1110px;
+$breakpointDesktopWide: 1440px;
+
+/* [04] Gutters/Spacing
+------------------------------------------------- */
+$rowGutter: 20px;
+$columnGutter: 20px;
+
+/* [05] Elements
+------------------------------------------------- */
+
+/* Template */
+$topBarBackground: #FCFDFE;
+$topBarMainLinkTextColor: $colorLinks;
+$topBarBorderColor: #CCD1E0;
+
+$borderGreyColor: #F0F0F0;
+
+/* Boxes */
+$boxBackgroundColor: #FFFCDA;
+$boxBackgroundColor: #FFF;
+$boxBackgroundAltColor: #F9F5CE;
+$boxBorderColor: #CAE5E3;
+
+/* Input */
+$inputBorder: #ddd;
+$selectBackgroundColor: #fff;

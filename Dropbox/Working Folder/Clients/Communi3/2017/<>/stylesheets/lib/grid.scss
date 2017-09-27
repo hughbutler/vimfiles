@@ -1,0 +1,36 @@
+@import "colors";
+@import "mixins";
+
+* > .row:first-child { padding-top: 0; }
+
+.row {
+  @include clearfix();
+  margin: auto;
+  max-width: 1000px;
+  padding-top: $rowGutter;
+
+  .column,
+  .columns {
+    float: left;
+    padding-left: $columnGutter;
+    width: 100%;
+
+
+    &.one     { width: 100%/12; }
+    &.two     { width: (100%/12) * 2; }
+    &.three   { width: (100%/12) * 3; }
+    &.four    { width: (100%/12) * 4; }
+    &.five    { width: (100%/12) * 5; }
+    &.six     { width: (100%/12) * 6; }
+    &.seven   { width: (100%/12) * 7; }
+    &.eight   { width: (100%/12) * 8; }
+    &.nine    { width: (100%/12) * 9; }
+    &.ten     { width: (100%/12) * 10; }
+    &.eleven  { width: (100%/12) * 11; }
+    &.twelve  { width: (100%/12) * 12; }
+
+    &:first-child { padding-left: 0; }
+
+  }
+}
+

@@ -1,0 +1,235 @@
+/*
+
+Iconography
+
+Table of contents:
+-> [01] Grid
+
+------------------------------------------------- */
+
+$iconColor: #ccc;
+$iconHoverColor: #555;
+
+/* [01] Icons
+--------------------------------------------------------------------------------------- //// */
+.icon {
+    color: $iconColor;
+    display: inline-block;
+
+    &::before {
+        font-family: $fontIconFamily;
+    }
+
+    &.ghosted {
+        opacity: 0.35;
+    }
+
+    &.td {
+        @include absolute(top 0 right 0);
+        @include icon("b", $iconColor, 52px, 48px, 24px);
+
+        line-height: 40px;
+        text-indent: -4px;
+
+        &:hover {
+            @include icon("b", $iconHoverColor, 52px, 48px, 24px);
+        }
+    }
+
+    &.downArrow {
+        &:after {
+            border: 1px solid $iconColor;
+            border-width: 0 0 1px 1px;
+            content: '';
+            display: inline-block;
+            height: 6px;
+            width: 6px;
+
+            @include relative(top -4px right -4px);
+            @include rotate(-45deg);
+        }
+    }
+
+    &.checkbox {
+        $fontSize: 32px;
+        $contSize: 28px;
+
+        background: #c5dbf1;
+        border-radius: 4px;
+        height: $contSize;
+
+        @include relative(top 6px);
+
+        text-decoration: lowercase;
+        width: $contSize;
+
+        @include icon("a", $colorVarBlue, $fontSize, false, $contSize, $contSize, false) {
+            line-height: 22px;
+
+            @include absolute(left 0);
+        }
+
+
+        &.checked {
+            background: $colorVarBlue;
+            text-decoration: uppercase;
+
+            @include icon("A", #ffffff, $fontSize, false, $contSize, $contSize, false) {
+                @include absolute(left 0px);
+            }
+        }
+    }
+
+    // &:not(.circle) {
+    &.map {
+        $fontSize: 42px;
+        $contSize: 40px;
+
+        @include icon("B", $colorVarBlue, $fontSize, false, $contSize, $contSize, false) {
+            line-height: 28px;
+
+            @include absolute(left -1px);
+        }
+    }
+
+    &.paperclip {
+        $fontSize: 42px;
+        $contSize: 40px;
+
+        @include icon("D", $colorVarBlue, $fontSize, false, $contSize, $contSize, false) {
+            line-height: 28px;
+
+            @include absolute(left -1px);
+        }
+    }
+
+    &.quotes {
+        $fontSize: 42px;
+        $contSize: 40px;
+
+        @include icon("E", $colorVarBlue, $fontSize, false, $contSize, $contSize, false) {
+            line-height: 28px;
+
+            @include absolute(left -1px);
+        }
+    }
+
+    &.employees {
+        $fontSize: 42px;
+        $contSize: 40px;
+
+        @include icon("F", $colorVarBlue, $fontSize, false, $contSize, $contSize, false) {
+            line-height: 28px;
+
+            @include absolute(left -1px);
+        }
+    }
+
+    &.at {
+        $fontSize: 42px;
+        $contSize: 40px;
+
+        @include icon("G", $colorVarBlue, $fontSize, false, $contSize, $contSize, false) {
+            line-height: 28px;
+
+            @include absolute(left -1px);
+        }
+    }
+
+    &.phone {
+        $fontSize: 42px;
+        $contSize: 40px;
+
+        @include icon("H", $colorVarBlue, $fontSize, false, $contSize, $contSize, false) {
+            line-height: 28px;
+
+            @include absolute(left -1px);
+        }
+    }
+
+    &.calendar {
+        $fontSize: 42px;
+        $contSize: 40px;
+
+        @include icon("I", $colorVarBlue, $fontSize, false, $contSize, $contSize, false) {
+            line-height: 28px;
+
+            @include absolute(left -1px);
+        }
+    }
+
+    &.location {
+        $fontSize: 42px;
+        $contSize: 40px;
+
+        @include icon("C", $colorVarBlue, $fontSize, false, $contSize, $contSize, false) {
+            line-height: 28px;
+
+            @include absolute(left -1px);
+        }
+    }
+
+    // }
+
+    &.circle {
+        $size: 40px;
+
+        border: 1px solid $colorVarCircleOutline;
+        border-radius: 1000px;
+        display: block;
+        float: left;
+        height: $size;
+        margin: -12px 12px 0 -4px;
+        position: relative;
+        width: $size;
+
+        &.profile {
+            $fontSize: 42px;
+            $contSize: 40px;
+
+            @include icon("a", $colorVarBlue, $fontSize, false, $contSize, $contSize, false) {
+                line-height: 28px;
+
+                @include absolute(left -1px);
+            }
+        }
+
+        &.location {
+            $fontSize: 38px;
+            $contSize: 40px;
+
+            @include icon("C", $colorVarBlue, $fontSize, false, $contSize, $contSize, false) {
+                line-height: 32px;
+
+                @include absolute(left -1px);
+            }
+        }
+    }
+}
+
+/* Avatar
+--------------------------------------------------------------------------------------- //// */
+$avatarBorder: 1px solid red;
+$avatarSize_Default: 60;
+$avatarSize_Small: 40;
+$avatarBackgroundColor: pink;
+
+.avatar {
+    border: $avatarBorder;
+    display: inline-block;
+    height: $avatarSize_Default;
+    width: $avatarSize_Default;
+
+    &.small {
+        height: $avatarSize_Small;
+        line-height: $avatarSize_Small - 2;
+        width: $avatarSize_Small;
+    }
+
+    &.empty {
+        background: $avatarBackgroundColor;
+        font-family: $fontFamily;
+        font-weight: bold;
+        text-align: center;
+    }
+}

@@ -1,0 +1,54 @@
+= content_for :header do
+    %h1
+        = link_to 'Weekends', weekends_path
+        &gt;
+        = @weekend
+
+= form_for @weekend do |f|
+
+    = render 'form_errors', entity: @weekend
+
+    %fieldset
+        %legend
+            %h2 General Info
+
+        .row.input
+            = textfield_block f, :theme, nil, 8
+            = textfield_block f, :weekend_number, nil, 4
+        .row.input
+            = textfield_block f, :verse_reference, nil, 6
+            = textfield_block f, :verse, nil, 6
+
+    %fieldset
+        %legend
+            %h2 Demographic
+
+        - if current_user.admin?
+            .row.input
+                = select_block f, :gender, nil, ["male", "female"], 6
+                = select_block f, :coordinator_id, "Rector", @eligible, 6
+        - else
+            = f.hidden_field :gender, current_user.gender
+            = f.hidden_field :coordinator_id, current_user.person.id
+
+        .row.input
+            = textfield_block f, :start_date, nil, 6
+            = textfield_block f, :end_date, nil, 6
+
+        .row.input
+            = textfield_block f, :attendee_cost, 'Candidate Cost', 6
+            = textfield_block f, :angel_cost, 'Team Cost', 6
+
+    %fieldset
+        %legend
+            %h2 Location
+        .row.input
+            = textfield_block f, :location_name
+        .row.input
+            = textfield_block f, :street, 'Street Address'
+        .row.input
+            = textfield_block f, :city, nil, 6
+            = select_block f, :state_id, "State", State.select('id, short as name').order('short').collect{ |e| [e.name, e.id] }, 2
+            = textfield_block f, :postal, 'Zip', 4
+
+    = submit_button 'Save'

@@ -1,0 +1,42 @@
+@mixin icon($char, $color: $iconColorDefault, $size: 20px, $before: true, $height: auto, $width: auto, $includeSelfStyles: true) {
+
+  @if $includeSelfStyles {
+    color: $color;
+    height: $height;
+    text-decoration: none;
+    width: $width;
+    @include transition(all .35s $animEasing);
+  }
+
+  @if $before {
+    // #{$offset}: 0;
+    &:before {
+      color: $color;
+      content: $char;
+      display: inline-block;
+      font-family: $fontIconFamily;
+      font-size: $size;
+      height: $height;
+      text-align: center;
+      width: $width;
+      @include transition(all .35s $animEasing);
+      @content;
+    }
+  }
+  @else {                                                        // 8
+    &:after {
+      color: $color;
+      content: $char;
+      display: inline-block;
+      font-family: $fontIconFamily;
+      font-size: $size;
+      height: $height;
+      text-align: center;
+      width: $width;
+      @include transition(all .35s $animEasing);
+      @content;
+    }
+  }
+}
+
+

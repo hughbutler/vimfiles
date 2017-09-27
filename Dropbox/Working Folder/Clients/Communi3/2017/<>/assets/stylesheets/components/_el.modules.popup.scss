@@ -1,0 +1,16 @@
+&.popup {
+    background: rgba(3, 28, 44, 0.4);
+
+    @include fixed(top 0 right 0 bottom 0 left 0);
+
+    z-index: 100;
+
+    .innerPopup {
+        background: #fff;
+
+        @include fixed(bottom 0 left 0 right 0);
+
+        padding: 40px;
+        z-index: 200;
+    }
+}

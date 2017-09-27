@@ -1,0 +1,45 @@
+!!!
+%html
+    %head
+
+        %title Communi3
+        %meta{:charset => "utf-8"}
+        %meta{:content => "NOODP", :name => "ROBOTS"}
+        -# %meta{:name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" }
+
+        = render 'meta'
+        -# = stylesheet_link_tag :main, :media => 'all', 'data-turbolinks-track' => true
+        = stylesheet_link_tag blendid_css_path('app.css')
+        = csrf_meta_tags
+
+        = yield :head
+
+    %body{ id: "#{params[:controller].gsub('/','_')}", class: "#{params[:action]}" }
+
+        = render 'flash'
+
+        - if current_user
+            = render 'topbar'
+            = render 'nav'
+
+        %main{ class: "#{'side-column' if side_column.present?}" }
+
+            - if side_column.present?
+                %aside
+                    = raw side_column
+            -# - if content_for? :aside
+            -#   %aside
+            -#     = yield :aside
+            -#
+            -# - elsif defined?(path_to_side_column) && path_to_side_column.present?
+            -#   %aside
+            -#     = render path_to_side_column
+
+            - if content_for?(:header)
+                %header
+                    = yield :header
+
+            = yield
+
+        = render 'footer'
+        = render 'javascripts'

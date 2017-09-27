@@ -1,0 +1,13 @@
+-# = render "menu"
+%table.normal.tablesorter
+  %thead
+    %tr
+      %th Title
+      %th Category
+      %th Actions
+  %tbody
+    - current_community.positions.each do |position|
+      %tr
+        %td= link_to position.title, edit_settings_position_path(position)
+        %td= show_categories position
+        %td= link_to 'Delete', settings_position_path(position), :confirm => 'Are you sure?', :method => :delete

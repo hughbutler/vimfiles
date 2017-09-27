@@ -1,0 +1,10 @@
+= javascript_include_tag 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'
+-# = javascript_include_tag 'application'
+= javascript_include_tag blendid_js_path('app.js')
+-# = render 'shared/google_analytics'
+
+= yield :javascript
+
+= javascript_tag do
+  -# $(document).ready(ready);
+  -# function ready () { }

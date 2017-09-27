@@ -1,0 +1,36 @@
+%header
+  %h1
+    #{current_community.to_s} Weekends
+    = link_to 'New Weekend', root_url, class: 'button'
+%h2 Coming up...
+= render @upcoming
+
+%h2 Previous...
+
+%table.normal.tablesorter
+  %thead
+    %tr
+      %th{:width => "200"} Weekend
+      %th M/W
+      %th Verse(s)
+      %th Rector
+  %tbody
+    - @archived.each do |weekend|
+      %tr
+        %td
+          %b
+            - if has_access? ['core','leader','rector'], false
+              = link_to truncate( weekend.title, :length => 30 ), closeout_weekend_path(weekend)
+              = "(pending...)" if !weekend.closed?
+            - else
+              = weekend.title
+            %br
+            = truncate weekend.theme, :length => 100
+        %td= weekend.gender == 'male' ? 'Men' : 'Women'
+        %td
+          %b= weekend.verse_reference
+          %br/
+          = weekend.verse
+        %td
+          - if weekend.coordinator
+            #{weekend.coordinator.last_name}, #{weekend.coordinator.first_name}

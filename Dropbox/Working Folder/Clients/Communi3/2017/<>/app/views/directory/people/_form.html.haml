@@ -1,0 +1,113 @@
+= simple_form_for @person do |f|
+  = f.error_messages
+  = f.input :member_status_id, :as => :hidden, :input_html => {:value => member_status_id_for('member')}
+  = f.input :who_pays, :as => :hidden, :input_html => {:value => 'unknown'}
+  = f.input :community_id, :as => :hidden, :input_html => {:value => community_id}
+  %fieldset
+    %legend Main Information
+    %div
+      %h2 General Info
+      = f.input :first_name, :required => true
+      = f.input :last_name, :required => true
+      = f.input :email, :label => 'Email Address'
+      = f.input :gender, :collection => ['male', 'female'], :required => true
+      = f.input :birthdate, :as => :date, :label => 'Birthdate',          |
+        :start_year => Date.today.year - 100,                             |
+        :end_year => Date.today.year - 5, :order => [:month, :day, :year] |
+      %hr/
+      %h2 Address Info
+      = f.input :street, :label => 'Street Address'
+      = f.input :city
+      = f.input :state_id, :collection => State.select('id, short as name').order('short')
+      = f.input :postal, :label => 'Postal Code'
+      %hr/
+      %h2 Relationship Info
+      = f.input :is_married, :label => 'Is Married?'
+      = f.input :spouse_name, :label => 'Spouse\'s Name'
+      %hr/
+      %h2 Contact Info
+      = f.input :main_phone, :label => 'Home Phone'
+      = f.input :mobile_phone, :label => 'Mobile Phone'
+      %hr/
+      %h2 Current Church
+      = f.input :church_name, :label => 'Church Name'
+      = f.input :is_clergy, :label => 'Person is clergy.'
+      %hr/
+      = f.input :notes, :label => 'Optional Notes'
+      %hr/
+      %h2 Emergency Contact
+      = f.input :emergency_contact_name, :label => 'Person\'s Name'
+      = f.input :emergency_contact_phone, :label => 'Phone Number'
+  %p= f.button :submit, 'create and send confirmation'
+
+    <div class="form" style="display:none;">
+      <p><%= link_to_function 'Cancel changes', 'Form.contact.hide(this)' %></p>
+      <%= simple_form_for @person do |f| %>
+        <%= f.error_messages %>
+
+          <% if @person.candidate? %>
+            <h2>Candidate</h2>
+            <%= f.association :birth_event, :label => 'For weekend #', :selected => @person.event_id, :collection => events_for_person(@person), :include_blank => false %>
+            <%= f.input :who_pays, :label => 'Who\'s paying?', :collection => ['sponsor', 'candidate', 'unknown'], :include_blank => false %>
+            <%= f.input :has_paid, :as => :select, :label => 'Paid in full?' %>
+            <%= f.input :name_on_tag, :label => 'Name on Tag' %>
+            <hr />
+            <%= f.input :wants_to_attend, :as => :select, :label => 'Wants to Attend?' %>
+            <%= f.input :attend_last_minute, :as => :select, :label => 'Can Attend Last Minute?' %>
+            <hr/>
+            <%= f.input :notes, :label => 'Special Needs' %>
+            <hr/>
+          <% end %>
+
+	        <h2>General Info</h2>
+	        <%= f.input :first_name, :required => true %>
+	        <%= f.input :last_name, :required => true  %>
+	        <%= f.input :gender, :collection => ['male', 'female'], :required => true %>
+	        <%= f.input :email, :label => 'Email Address' %>
+	        <hr/>
+	        <h2>Address Info</h2>
+	        <%= f.input :street, :label => 'Street Address' %>
+	        <%= f.input :city %>
+	        <%= f.input :state_id, :collection => State.select('id, short as name').order('short') %>
+	        <%= f.input :postal, :label => 'Postal Code' %>
+	        <hr/>
+	        <%= f.input :main_phone, :label => 'Home Phone' %>
+	        <%= f.input :mobile_phone, :label => 'Mobile Phone' %>
+	        <%= f.input :birthdate, :as => :date, :label => 'Birthdate',
+	                                          :start_year => Date.today.year - 100,
+	                                          :end_year => Date.today.year - 5, :order => [:month, :day, :year] %>
+	        <hr/>
+
+	        <h2>Relationship Info</h2>
+	        <%= f.input :is_married, :label => 'Is Married?' %>
+	        <%= f.input :spouse_name, :label => 'Spouse\'s Name' %>
+
+            <h2>Emergency Contact</h2>
+            <%= f.input :emergency_contact_name, :label => 'Person\'s Name' %>
+            <%= f.input :emergency_contact_phone, :label => 'Phone Number' %>
+
+              <hr/>
+              <h2>Current Church</h2>
+              <%= f.input :church_name, :label => 'Church Name' %>
+              <%= f.input :is_clergy, :label => 'Person is clergy.' %>
+              <hr/>
+            <%= f.input :shirt_size, :label => 'Shirt Size', :collection => ['S','M','L','XL', '2XL', '3XL', '4XL'] %>
+            <hr/>
+            <%= render 'custom_fields', :tag => 'member' %>
+
+              <p><%= f.button :submit, 'Save Changes' %></p>
+	      <% end %>
+
+          <% if has_access? 'super_admin', false %>
+          <div id="delete">
+            <div class="set">
+
+              <h3>Warning: You are about to remove this person forever.</h3>
+              <p>If you need, you can proceed to <%=link_to 'permanently remove this person from the database', @person, :method => :delete, :confirm => 'Are you sure?' %>.</p>
+
+              </div>
+            </div>
+          <!-- End of Delete -->
+          <% end %>
+	    </div>
+	  </div>

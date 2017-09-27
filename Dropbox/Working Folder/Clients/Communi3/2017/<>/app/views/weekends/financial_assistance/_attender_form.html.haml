@@ -1,0 +1,20 @@
+= form_tag attendee_for_weekend(@weekend, attendee) do |f|
+  %tr.attender_row
+    %td
+      %b= link_to attendee.person.last_name+', '+attendee.person.first_name, attendee.person
+      %br/
+      = attendee.person.main_phone
+      %br/
+      = link_to truncate(attendee.person.email, :length => 20), "mailto:#{attendee.person.email}"
+    %td
+      = f.association :position, :as => :select, :collection => Position.select('id, title').community(community_id).order('title'), :label => false, :prompt => '-- primary --'
+      = f.association :aux_position, :as => :select, :collection => Position.select('id, title').community(community_id).order('title'), :label => false, :prompt => '-- optional add\'l --'
+    %td
+      = f.input :fa_needed, :label => 'Requested'
+      = f.input :fa_amount_needed, :label => "$"
+    %td
+      = f.input :fa_granted, :label => 'Accepted'
+      = f.input :fa_amount_granted, :label => "$"
+    %td
+      = f.button :submit, 'Save Changes', :class => 'button_link small'
+      -# = link_to 'Delete', event_event_attendee_path(attendee.event_id, attendee), :confirm => 'WARNING! You are about to remove '+name_of(attendee.person, true)+' from the weekend. Are you sure you want to do this?', :method => :delete, :class => 'button_link small'

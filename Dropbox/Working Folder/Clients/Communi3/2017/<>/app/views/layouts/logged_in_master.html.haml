@@ -1,0 +1,36 @@
+!!!
+%html
+  %head
+
+    %title Communi3
+    %meta{:charset => "utf-8"}
+    %meta{:content => "NOODP", :name => "ROBOTS"}
+    -# %meta{:name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" }
+
+    = render 'meta'
+    = stylesheet_link_tag :main, :media => 'all', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+    = yield :head
+
+  %body{ id: "#{params[:controller]}", class: "#{params[:action]}" }
+
+    = render 'flash'
+    = render 'header'
+    = render 'nav'
+
+    %main
+
+      - if content_for? :aside
+        %aside
+          = yield :aside
+
+      - else path_to_side_column.present?
+        %aside
+          = render path_to_side_column
+
+      = yield
+
+    = render 'footer'
+    = render 'javascripts'
+

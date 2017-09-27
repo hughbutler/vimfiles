@@ -1,0 +1,68 @@
+= render 'shared/weekends'
+%h1
+  = raw '<span class="tag">Completed '+@event.end_date.strftime('%x')+'</span>' if @event.is_completed?
+  Team Fees
+.clearboth
+%hr/
+%p#loader-indicator{:style => "text-align: center;"}
+  = image_tag 'loader.gif'
+  = succeed "Loading" do
+    %br/
+%table#loader-target.normal.variation.tablesorter.payments{:style => "display:none"}
+  %thead
+    %tr
+      %th{:width => "10%"} Date
+      %th{:width => "300"} Description
+      %th Account
+      %th{:width => "10%"} Amount
+      %th{:width => "10%"} Total
+      %th{:width => "30"}
+  %tfoot
+    %tr
+      %td{:align => "right", :colspan => "3"} Baseline
+      %td
+        %strong $0
+      %td
+        %strong $0
+      %td
+  %tbody
+    - balance = line_balance = @payments.sum(:amount)
+    - @payments.each do |line|
+      %tr{:class => "payment-display-#{line.id}"}
+        %td
+          %nowrap= line.created_at.strftime("%x")
+        %td= line.general? ? '<em style="color:#ccc">**general**</em>'.html_safe : line.note
+        %td= link_to name_of(line.person, false), line.person
+        %td
+          %nowrap= number_to_currency( line.amount )
+          = image_tag '/images/fieldset_pointer_up.png', :class => 'payment_fieldset_pointer'
+          %fieldset.payment_details.popup
+            %h2{:style => "margin: 0 0 5px;"} Edit Payment
+            = simple_form_for line, :remote => true do |f|
+              = f.input :note if !line.general?
+              = f.input :amount, :as => :string
+              %hr/
+              = f.button :submit, 'Save Changes'
+              = link_to 'Delete Payment', line, :method => :delete, :remote => true, :confirm => "Are you sure?"
+        %td
+          %nowrap= display_strong? line_balance, balance
+        %td{:style => "text-align: center;"}
+          = link_to 'edit', 'javascript:void(0)', :class => 'edit'
+          = link_to 'cancel', 'javascript:void(0)', :class => 'cancel'
+      - line_balance -= line.amount
+:css
+  #payment_submit { margin: 0; float: none; width: auto; }
+  img { width: 10px; }
+- content_for :javascripts do
+  $(document).ready(function(){
+  $('#loader-indicator').hide();
+  $('#loader-target').slideDown();
+  $('.cancel').bind('click', function(){
+  $(this).closest('table').find('tr').removeClass('highlight');
+  \//$(this).closest('tr').addClass('highlight');
+  });
+  $('.edit').bind('click', function(){
+  $(this).closest('table').find('tr').removeClass('highlight');
+  $(this).closest('tr').addClass('highlight');
+  });
+  });

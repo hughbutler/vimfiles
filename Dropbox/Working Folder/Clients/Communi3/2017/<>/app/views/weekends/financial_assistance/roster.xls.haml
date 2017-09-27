@@ -1,0 +1,19 @@
+LASTNAME	FIRSTNAME	POSITION	AUX POS	ADDRESS	CITY	STATE	ZIP	HOME PHONE	CELL PHONE	EMAIL	CHURCH	TFP	DONATIONS	FAP	TOT	SHIRT SIZE
+- @team.attended.each do |attendee|
+  = attendee.person.last_name
+  = attendee.person.first_name
+  = attendee.position.try(:title)
+  = attendee.aux_position.try(:title)
+  = attendee.person.street
+  = attendee.person.city
+  = attendee.person.state.try(:short)
+  = attendee.person.postal
+  = attendee.person.main_phone
+  = attendee.person.mobile_phone
+  = attendee.person.email
+  = attendee.person.church_name
+  = number_to_currency attendee.person.total_fees_paid(@event.id)
+  = number_to_currency attendee.person.total_donations(@event.id)
+  = attendee.fa_granted ? number_to_currency(attendee.fa_amount_granted) : '$0.00'
+  = number_to_currency attendee.person.total_payments(@event.id)
+  = attendee.person.shirt_size || 'not given'

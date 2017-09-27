@@ -1,0 +1,48 @@
+%fieldset
+  %legend
+    = weekend.title
+    #{weekend.theme} #{link_to 'edit', [:edit, weekend] if can_edit_weekend? weekend, 'rector', false}
+
+  .dates
+    = render_calendar_for(weekend.start_date)
+    %span.to
+    = render_calendar_for(weekend.end_date)
+
+  %h2= weekend.gender == 'male' ? 'MEN' : 'WOMEN'
+
+  %p
+    %strong= weekend.verse_reference
+    %br/
+    = weekend.verse
+  %p
+    %strong Rector:
+    = "#{weekend.coordinator.try(:last_name)}, #{weekend.coordinator.try(:first_name)}"
+    %br/
+
+    %strong Your Cost (team):
+    = number_to_currency weekend.angel_cost
+    - if matches_weekend_gender?(weekend)
+      - if !current_user_is_scheduled?(weekend)
+        = link_to 'Apply to Serve', new_team_app_path( :weekend_id => weekend.id ), :class => 'button_link small'
+      - elsif !current_user.person.fully_paid? weekend
+        = link_to 'Online Pay', new_payment_path(:redirect_to => request.url), :class => 'button_link small'
+    %br/
+    %strong Candidate Cost:
+    = number_to_currency weekend.attendee_cost
+    = link_to 'Sponsor Candidate', new_nomination_path( :weekend_id => weekend.id ), :class => 'button_link small' if matches_weekend_gender? weekend
+  - if weekend.address.present?
+    %p
+      %strong
+        = weekend.location_name
+        \:
+      %br/
+      = raw weekend.address
+  - if has_access? ['core','leader','rector','fourth_day_couple'], false
+    %hr/
+    %p
+      -# = link_to 'Manage', weekend_meetings_path(event), :class => 'button_link' if has_access? ['core','leader','rector'], false
+      -# = link_to 'Financial Assistance', event_event_attendees_path(event), :class => 'button_link' if has_access? ['leader','rector'], false
+      -# = link_to 'Team Fees', event_ledger_path(event), :class => 'button_link' if has_access? ['core','leader','rector'], false
+      -# = link_to 'Donations', event_general_funds_path(event), :class => 'button_link' if has_access? ['core','leader','rector'], false
+      -# = link_to 'Download Roster', roster_event_event_attendees_path(event, :format => 'xls'), :class => 'button_link' if has_access? ['core','leader','rector'], false
+      -# = link_to 'Finalize & Close Weekend', event_closeout_path(event), :class => 'button_link' if has_access?(['core','leader','rector','fourth_day_couple'], false)

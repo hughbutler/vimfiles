@@ -1,0 +1,6 @@
+- metas.each do |key, val|
+  - if key == :title
+    %title= val
+
+  - else
+    %meta{:name => "#{key.to_s}", :content => "#{val}" }

@@ -1,0 +1,20 @@
+@mixin oldbox-shadow($top, $left, $blur, $color, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow:inset $top $left $blur $color;
+    -moz-box-shadow:inset $top $left $blur $color;
+    box-shadow:inset $top $left $blur $color;
+  } @else {
+    -webkit-box-shadow: $top $left $blur $color;
+    -moz-box-shadow: $top $left $blur $color;
+    box-shadow: $top $left $blur $color;
+  }
+}
+
+@mixin box-shadow($args...) {
+  // $outputString: '';
+
+  // @each $arg in $args {                                        // 3
+  //   $outputString
+  // }
+  @include cross-browser('box-shadow', join-to-string($args, ', '));
+}

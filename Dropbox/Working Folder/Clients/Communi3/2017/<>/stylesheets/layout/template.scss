@@ -1,0 +1,217 @@
+@import "compass";
+@import "../lib/mixins";
+@import "../lib/colors";
+
+html {
+
+  body {
+
+    background: $bodyBackgroundColor;
+    font-family: $sansFamily;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 0 0 0 60px;
+
+    @include respond-to(large) {
+      padding: 0 40px 0 74px;
+    }
+
+    .bubble {
+    }
+
+    #topbar {
+      font-weight: 700;
+      padding: 16px;
+
+      h1 {
+        color: #EBEBEB;
+        display: block;
+        font-size: 16px;
+        line-height: 18px;
+        font-weight: 700;
+
+        em {
+          color: #D1CECE;
+          display: block;
+          font-size: 12px;
+          font-weight: normal;
+        }
+
+
+        @include respond-to(large) {
+          font-size: 20px;
+          line-height: 20px;
+
+          em { font-size: 13px; }
+        }
+
+        b {
+        }
+
+
+      }
+
+      aside {
+        color: #FAFDFF;
+        display: block;
+        font-family: OpenSans;
+        font-size: 12px;
+        font-weight: normal;
+        margin: 8px 0 20px;
+
+        a {
+          color: #B4D8FF;
+        }
+
+        @include respond-to(large) {
+          font-size: 14px;
+        }
+      }
+
+      @include respond-to(large) {
+        @include clearfix();
+        h1 {
+          float: left;
+        }
+        aside {
+          float: right;
+        }
+      }
+    }
+
+    nav#core {
+      @include fixed(top 0px left 0 bottom 0px);
+      background: #102F56;
+      height: 100%;
+      width: 60px;
+
+      @include respond-to(large) {
+        top: 108px;
+        width: 74px;
+      }
+
+      a {
+        border-top: 1px solid #546c87;
+        color: #C5DBF1;
+        display: block;
+        font-size: 10px;
+        font-weight: normal;
+        height: 68px;
+        padding: 8px 0 0;
+        text-align: center;
+        text-decoration: none;
+        width: 100%;
+
+        svg {
+          display: block;
+          height: auto;
+          margin: 0 auto;
+          width: 40px;
+
+          .icon {
+            fill: #C5DBF1;
+            &.stroke {
+              fill: none;
+              outline: #C5DBF1;
+            }
+          }
+        }
+
+        &.current {
+          color: #4182C9;
+        }
+
+        @include respond-to(large) {
+          font-size: 11px;
+          height: 68px;
+
+          svg {
+            .icon {
+              height: 32px;
+              width: 45px;
+            }
+          }
+        }
+
+      }
+
+    }
+
+    main {
+      background: #FFFFFF;
+      box-shadow: 2px 20px 24px 0 #003263;
+      padding: 24px 40px;
+
+      header {
+        border-bottom: 1px solid #C5DBF1;
+        padding: 12px 0 28px 0;
+      }
+
+      aside {
+        background: #ddecfb;
+        border-radius: 0 4px 4px 0;
+        padding: 32px 24px;
+
+        nav {
+          display: block;
+          position: static;
+
+          p {
+            color: #102F56;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px;
+            margin: 0 0 20px;
+
+            a {
+              border-top: 1px solid #C5DBF1;
+              color: #3D90E7;
+              display: block;
+              font-size: 14px;
+              line-height: 20px;
+              padding: 16px 0;
+              text-decoration: none;
+              @include transition(all 0.3s ease);
+
+              &:hover { padding-left: 16px; }
+
+              &:first-child {
+                border: 0;
+              }
+
+              &.active {
+                color: #102F56;
+                font-weight: bold;
+
+                &:not(.letter) {
+                  background: url('icon-eye.png') no-repeat left center;
+                  background-size: 12px 8px;
+                  padding-left: 16px;
+                }
+              }
+            }
+
+          }
+        }
+      }
+
+
+      @include respond-to(large) {
+        border-radius: 4px;
+        position: relative;
+
+        &.side-column {
+          padding: 24px 332px 24px 40px;
+        }
+
+        aside {
+          @include absolute(top 0 right 0 bottom 0);
+          width: 292px;
+        }
+      }
+
+      article {}
+      section {}
+    }
+  }
+}

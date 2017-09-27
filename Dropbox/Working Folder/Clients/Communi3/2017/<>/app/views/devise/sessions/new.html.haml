@@ -1,0 +1,29 @@
+.row#wrapper
+  .row
+    .columns.center-text.logo-container
+      = svg 'firewrk'
+
+  .row
+    .six.columns.centered
+      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .module
+
+          -# Top
+          %h3 Login
+          = render "devise/shared/links"
+
+          %fieldset
+            -# %legend
+            -#   General Info
+
+            .row.input
+              .columns.six
+                = f.label :email
+                = f.email_field :email, autofocus: true
+              .columns.six
+                = f.label :password
+                = f.password_field :password, autocomplete: "off"
+
+            = submit_button 'Login'
+
+

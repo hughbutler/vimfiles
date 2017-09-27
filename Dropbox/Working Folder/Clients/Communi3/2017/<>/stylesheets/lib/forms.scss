@@ -1,0 +1,68 @@
+@import "compass";
+@import "../lib/mixins";
+@import "../lib/colors";
+
+
+form {
+
+  &.has_errors .field_with_errors {
+    textarea,
+    select,
+    input {
+      border: 1px solid #c3312b;
+      box-shadow: 0 0 8px #c3312b;
+    }
+  }
+
+  label {}
+
+  input[type=file],
+  input[type=text],
+  input[type=email],
+  input[type=number],
+  input[type=password],
+  select {
+    @include transition(all 0.3s ease);
+    outline: none;
+
+    &:focus {
+    }
+  }
+
+  input[type=checkbox] {
+    + label {
+      display: inline;
+    }
+  }
+
+  textarea {
+    outline: none;
+
+    &:focus {
+    }
+  }
+
+  .formSelect {
+    background: $formInputBackgroundColor asset-url('selectArrow.png') no-repeat right center;
+    display: block;
+    overflow: hidden;
+
+    select {
+      background: transparent;
+      width: 100%;
+      -webkit-appearance: none;
+
+      &:focus {
+      }
+    }
+  }
+
+  .actions {
+    input[type~=button],
+    input[type~=submit],
+    .button {
+      @include button_styles();
+    }
+  }
+
+}

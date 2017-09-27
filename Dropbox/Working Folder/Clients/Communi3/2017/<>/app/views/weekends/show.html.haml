@@ -1,0 +1,32 @@
+%p#notice= notice
+.title
+  .dates
+    = render_calendar_for( @event.start_date)
+    %span.to
+    = render_calendar_for( @event.end_date)
+  %h1= @event.title
+%hr/
+%h2 Location
+%p
+  = @event.location_name
+  %br/
+  = @event.street
+  ,
+  %br/
+  = @event.city
+  , #{@event.state.short if @event.state.present?} #{@event.postal}
+%p
+  %b Coordinator:
+  = @event.coordinator_id
+%p
+  %b Community:
+  = @event.community_id
+%p
+  %b Details:
+  = @event.details
+%p
+  %b Attendee cost:
+  = number_to_currency @event.attendee_cost
+%p
+  %b Angel cost:
+  = number_to_currency @event.angel_cost

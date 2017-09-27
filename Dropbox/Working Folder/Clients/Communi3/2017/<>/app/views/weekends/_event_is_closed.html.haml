@@ -1,0 +1,73 @@
+%h1 Roster (Locked)
+.clearboth
+%hr/
+%fieldset.alt
+  %legend
+    Candidates (#{@candidates.attended.count})
+  %table.normal.tablesorter
+    %thead
+      %tr
+        %th First
+        %th Last
+        %th Address
+        %th City
+        %th State
+        %th Zipcode
+        %th Email
+        %th Home
+        %th Cell
+        %th Church
+    %tbody
+      - @event.event_attendees.candidate.attended.joins(:person).order('last_name, first_name').each do |attendee|
+        %tr{:style => "#{"background: #f3f5c4" unless attendee.person.has_login?}"}
+          %td= link_to attendee.person.first_name, attendee.person
+          %td= link_to attendee.person.last_name, attendee.person
+          %td= attendee.person.street
+          %td= attendee.person.city
+          %td= attendee.person.state.short
+          %td= attendee.person.postal
+          %td
+            = link_to attendee.person.email, attendee.person.email, :class => 'launch_mailer', :to => attendee.person.to_s, :from => name_of(attendee.person, true), :mail_template_key => 'post_weekend_couple'
+            - unless attendee.person.has_login?
+              %br/
+              %b{:style => "color: red"} MISSING LOGIN
+              - existing_user = User.where( email: attendee.person.email ).try(:first)
+              = "<br/>(#{link_to name_of(existing_user.person, true), person_path(existing_user.person)} already uses this email)".html_safe if existing_user
+          %td= attendee.person.main_phone
+          %td= attendee.person.mobile_phone
+          %td= attendee.person.church_name
+  %p
+    = link_to "#{image_tag 'icons/small_icons/Download.png'} Candidates (CSV)".html_safe, event_closeout_path( :candidates => true, :format => :xls ), :style => 'text-decoration:none;'
+%fieldset.alt
+  %legend
+    Team (#{@team.attended.count})
+  %table.normal.tablesorter
+    %thead
+      %tr
+        %th First
+        %th Last
+        %th Position
+        %th Address
+        %th City
+        %th State
+        %th Zipcode
+        %th Email
+        %th Home
+        %th Cell
+        %th Church
+    %tbody
+      - @team.attended.joins(:person).order('last_name, first_name').each do |attendee|
+        %tr
+          %td= link_to attendee.person.first_name, attendee.person
+          %td= link_to attendee.person.last_name, attendee.person
+          %td= attendee.position.try(:title)
+          %td= attendee.person.street
+          %td= attendee.person.city
+          %td= attendee.person.state.try(:short)
+          %td= attendee.person.postal
+          %td= link_to attendee.person.email, attendee.person.email, :class => 'launch_mailer', :to => attendee.person.to_s, :from => name_of(attendee.person, true), :mail_template_key => 'post_weekend_couple'
+          %td= attendee.person.main_phone
+          %td= attendee.person.mobile_phone
+          %td= attendee.person.church_name
+  %p
+    = link_to "#{image_tag 'icons/small_icons/Download.png'} Team (CSV)".html_safe, event_closeout_path( :format => :xls ), :style => 'text-decoration:none;'

@@ -1,0 +1,87 @@
+source 'https://rubygems.org'
+
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  "https://github.com/#{repo_name}.git"
+end
+
+gem 'rails', '~> 5.0.1'
+gem 'pg', '~> 0.15'
+
+# Front-End
+gem 'coffee-rails', '~> 4.2'
+gem 'haml-rails'
+gem 'jquery-rails'
+gem 'sass-rails', '~> 5.0'
+gem 'normalize-rails'
+gem 'compass-rails'
+gem 'ruby-beautify'
+
+# Assets
+gem 'uglifier', '>= 1.3.0'
+gem 'therubyracer', :platforms => :ruby
+gem 'sprockets-rails', :require => 'sprockets/railtie'
+gem 'turbolinks', '~> 5'
+
+# Auth + Security
+gem 'devise'
+
+# State
+gem 'state_machine'
+
+# Helpers
+gem 'delayed_job_active_record'
+gem 'chronic'
+gem 'kaminari'
+
+# Email + Text
+gem 'sendgrid'
+
+# API
+gem 'rack-cors'
+gem 'responders'
+gem 'jbuilder', '~> 2.5'
+
+# Photos & Media
+gem 'carrierwave'
+gem 'fog'
+gem 'rmagick'
+
+# Replace?
+gem 'awesome_nested_set', :git => 'git://github.com/galetahub/awesome_nested_set.git'
+
+# Use Capistrano for deployment
+# gem 'capistrano-rails', group: :development
+
+group :development, :test do
+  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'byebug', platform: :mri
+end
+
+group :development do
+  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
+  gem 'web-console', '>= 3.3.0'
+  gem 'listen', '~> 3.0.5'
+
+  # Testing
+  gem 'letter_opener'
+
+  # Debug
+  gem 'pry-remote'
+
+  # Use Capistrano for deployment
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano3-nginx', '~> 2.0'
+  gem 'capistrano-passenger' #deploy:restart
+  gem 'capistrano-rvm'
+
+  # Help Seeing What's there
+  gem 'annotate'
+  gem 'rails-erd'
+
+  gem 'erb2haml' #rake haml:replace_erbs
+end
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

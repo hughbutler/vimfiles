@@ -1,0 +1,60 @@
+#topbar {
+    font-weight: 700;
+    padding: 16px;
+
+    h1 {
+        color: #EBEBEB;
+        display: block;
+        font-size: 16px;
+        line-height: 18px;
+        font-weight: 700;
+
+        em {
+            color: #D1CECE;
+            display: block;
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        @include desktop {
+            font-size: 20px;
+            line-height: 20px;
+
+            em {
+                font-size: 13px;
+            }
+        }
+
+
+        b {}
+    }
+
+    aside {
+        color: #FAFDFF;
+        display: block;
+        font-family: OpenSans;
+        font-size: 12px;
+        font-weight: normal;
+        margin: 8px 0 20px;
+
+        a {
+            color: #B4D8FF;
+        }
+
+        @include desktop {
+            font-size: 14px;
+        }
+    }
+
+    @include desktop {
+        @include clearfix;
+
+        h1 {
+            float: left;
+        }
+
+        aside {
+            float: right;
+        }
+    }
+}

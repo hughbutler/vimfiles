@@ -1,0 +1,48 @@
+%h1 Move Candidates to Pescadores
+.clearboth
+%hr/
+%p
+  The following
+  %b candidates
+  will be converted to pescadores. We will automatically email all candidates below with a password to log into Communi3. If the candidate doesn't have an email address entered, they can be given access at a later date.
+- if @candidates.empty?
+  %p
+    No candidates are listed.
+- else
+  %ul
+    - @candidates.attended.each do |attendee|
+      %li
+        - if attendee.person.email.present?
+          = link_to attendee.person.last_name+', '+attendee.person.first_name, attendee.person
+        - else
+          %strike= link_to attendee.person.last_name+', '+attendee.person.first_name, attendee.person
+          **
+          %b> missing email
+          **
+= form_tag event_process_candidates_path(@event.id), :method => :post do
+  %fieldset.alt{:style => "width:auto;display:block;float:none;margin:0;"}
+    %legend Personal Note
+    %p These people will receive a welcome email with their username and password. You can also add a personalized note that will appear at the bottom of the email. Please use plain text (no HTML tags).
+    .psuedo_email
+      .head
+        %p John Doe,
+        .mid
+          = text_area_tag 'message', nil, :rows => 5
+        = raw render_mail_template('welcome_email')
+        %div{:style => "border: 1px solid #ccc; padding: 15px 15px 0; background: #eee;"}
+          %p
+            %b LOGIN CREDENTIALS
+          %p
+            You have been granted access and may now log into the #{link_to "#{current_community.title} online community", 'http://td.communi3.com'}. If you have trouble clicking that link, you may
+            pasted the following address in your browser: http://td.communi3.com
+          %p
+            Email:
+            %b sample@example.com
+            %br/
+            Password:
+            %b samplepassword
+        %hr/
+        %p{:style => "font-size: 11px"} This message was sent from within the Communi3 System.
+  = submit_tag 'Convert to Pescadores'
+.clearboth
+%hr/

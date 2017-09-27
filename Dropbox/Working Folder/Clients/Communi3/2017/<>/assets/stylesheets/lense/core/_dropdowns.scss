@@ -1,0 +1,240 @@
+/*
+
+All menuing components will be here
+
+[01] Clickable Menu
+[02] Hoverable Menu
+[03] Main Menu Nav
+
+------------------------------------------------- */
+// @import "_inc";
+
+$backgroundColor: #222;
+$fontColor: #fff;
+
+$darkBackgroundColor: #222;
+$darkFontColor: #fff;
+/*------------------------------------------------- */
+
+/* [01] Clickable Menu
+--------------------------------------------------------------------------------------- //// */
+
+.hasClickableMenu {
+  display: inline-block;
+  position: relative;
+
+  .cmTrigger {
+    display: inline-block;
+  }
+
+  .cmTarget {
+    background:     #FFFFFF;
+    border-radius:  1px;
+    @include box-shadow(0 2px 24px rgba(0, 0, 0, .3));
+    @include absolute(top 8px right 8px);
+    display: block;
+    padding: 0 20px;
+    // position: relative;
+    text-align: center;
+    width: 250px;
+
+    .td.icon.ghosted {
+      @include absolute(top 4px right 4px);
+    }
+
+    &.blockBottom {
+      bottom: 8px;
+      top: auto;
+    }
+
+    &.blockLeft {
+      right: auto;
+      left: 8px;
+
+      > .td.icon.ghosted {
+        @include absolute(top 4px right auto left 4px);
+      }
+    }
+
+    .cmTarget {
+      @include absolute(top -4px right -4px);
+
+      &.blockLeft {
+        right: auto;
+        left: -8px;
+      }
+    }
+
+    /* starting vals to hide */
+    height: 0;
+    opacity: 0;
+    // overflow: hidden;
+    visibility: hidden;
+    @include yTransform(-12px);
+    @include transition(all .45s $animEasing);
+
+    h5 {
+      padding-bottom: 17px;
+      position: relative;
+
+      &:after {
+        border-bottom: 1px solid #DCDBDC;
+        content: '';
+        @include absolute(bottom 0 left 50%);
+        margin-left: -50px;
+        width: 100px;
+      }
+    }
+
+    ul {
+      li {
+        font-size: 13px;
+        line-height: 16px;
+        padding: 16px 0 0;
+
+        a, button {
+          color: #495960;
+
+          &:hover {
+            color: #1A2B32;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+
+  &.dark {
+
+    .cmTarget {
+      background: $backgroundColor;
+      h5 {
+      color: #7A7D84; }
+
+      li {
+        color: $fontColor;
+        a, button {
+        color: $fontColor; }
+      }
+    }
+  }
+
+  &.cmVisible {
+    > .cmTarget {
+      height: auto;
+      opacity: 1;
+      padding-bottom: 16px;
+      padding-top: 16px;
+      @include yTransform(0);
+      visibility: visible;
+      z-index: 10000;
+    }
+  }
+
+}
+
+
+/* [02] Hoverable Menu
+--------------------------------------------------------------------------------------- //// */
+
+.hasHoverableMenu {
+  position: relative;
+  display: inline-block;
+
+  .hmTrigger {
+    display: inline-block;
+  }
+
+  .hmTarget {
+    background:     #FFFFFF;
+    border-radius:  1px;
+    @include box-shadow(0 2px 24px rgba(0, 0, 0, .3));
+    @include absolute(top 100% right 8px);
+    display: block;
+    margin-top: -4px;
+    padding: 0 20px;
+    text-align: center;
+    width: 200px;
+
+    /* starting vals to hide */
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    visibility: hidden;
+    @include yTransform(-12px);
+    @include transition(all .45s $animEasing);
+
+    &.blockBottom {
+      right: auto;
+      top: auto;
+      bottom: 8px;
+      left: 8px;
+    }
+
+    &.blockLeft {
+      right: auto;
+      left: 8px;
+    }
+
+    h5 {
+      padding-bottom: 17px;
+      position: relative;
+
+      &:after {
+        border-bottom: 1px solid #DCDBDC;
+        content: '';
+        @include absolute(bottom 0 left 50%);
+        margin-left: -50px;
+        width: 100px;
+      }
+    }
+
+    ul {
+      li {
+        font-size: 13px;
+        line-height: 16px;
+        padding: 16px 0 0;
+        a, button {
+          color: #495960;
+
+          &:hover {
+            color: #1A2B32;
+          }
+        }
+      }
+    }
+  }
+
+  &.dark {
+
+    .hmTarget {
+      background: $darkBackgroundColor;
+      h5 {
+        color: #7A7D84; }
+
+      li {
+        color: $darkFontColor;
+        a, button {
+          color: #F7F0F0; }
+      }
+    }
+  }
+
+  &:hover {
+    .hmTarget {
+      height: auto;
+      opacity: 1;
+      padding-bottom: 16px;
+      padding-top: 16px;
+      @include yTransform(0);
+      visibility: visible;
+      z-index: 10000;
+      @include transition(all .45s .5s $animEasing);
+    }
+  }
+}
+
+
+/* [03] Main Nav Menu
+--------------------------------------------------------------------------------------- //// */
+

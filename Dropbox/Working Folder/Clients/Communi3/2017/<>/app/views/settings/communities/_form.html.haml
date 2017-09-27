@@ -1,0 +1,27 @@
+= form_for [:settings, @current_community] do |f|
+
+    = render 'form_errors', entity: @current_community
+
+    %fieldset
+        %legend
+            %h2 General Info
+
+        .row.input
+            = textfield_block f, :title, 'Community Name', 12, {placeholder: 'asdf'}
+        .row.input
+            = textfield_block f, :street
+        .row.input
+            = textfield_block f, :city, nil, 6
+            -# = textfield_block f, :state_id, nil, 2
+            = select_block f, :state_id, nil, State.order('short').collect{ |e| [e.short, e.id] }, 2
+            = textfield_block f, :postal, 'Zip', 4
+            -# = f.input :state_id, :collection => State.select('id, short as name').order('short'), :include_blank => false
+        .row.input
+            = textfield_block f, :phone, nil, 6
+            = textfield_block f, :email, nil, 6
+        .row.input
+            = textfield_block f, :url, 'Website Address'
+        .row.input
+            = textfield_block f, :event_prefix, 'Prefix for Weekend Numbers'
+
+    = submit_button 'Save'

@@ -1,0 +1,27 @@
+= render 'menu'
+%table.normal.tablesorter
+  %thead
+    %tr
+      %th{:width => "200"} Weekend
+      %th M/W
+      %th Verse(s)
+      %th Rector
+  %tbody
+    - @events.each do |event|
+      %tr
+        %td
+          %b
+            - if has_access? ['core','leader','rector'], false
+              = link_to truncate( event.title, :length => 30 ), event_closeout_path(event)
+          = "(pending...)" if !event.closed?
+          - else
+            = event.title
+            \-
+            \#{truncate event.theme, :length => 100}
+        / <td><haml_loud> event.start_date.to_s(:long) </haml_loud> - <haml_loud> event.end_date.to_s(:long) </haml_loud></td>
+        %td= event.gender == 'male' ? 'Men' : 'Women'
+        %td
+          %b= event.verse_reference
+          %br/
+          = event.verse
+        %td= "#{event.coordinator.last_name}, #{event.coordinator.first_name}" if event.coordinator

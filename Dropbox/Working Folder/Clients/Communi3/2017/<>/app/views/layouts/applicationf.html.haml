@@ -1,0 +1,142 @@
+!!!
+%html{:xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title
+      = page_title
+      Communi3
+    - if user_signed_in?
+      = stylesheet_link_tag 'style', 'jquery.cleditor.css', 'jquery.autocomplete.css', 'reveal.css'
+    - else
+      = stylesheet_link_tag 'style', 'login'
+    = csrf_meta_tag
+    /[if IE 8]
+      <script type='text/javascript' src='/javascripts/excanvas.js'></script>
+      <link rel="stylesheet" href="/stylesheets/IEfix.css" type="text/css" media="screen" />
+    /[if IE 7]
+      <script type='text/javascript' src='/javascripts/excanvas.js'></script>
+      <link rel="stylesheet" href="/stylesheets/IEfix.css" type="text/css" media="screen" />
+  %body
+    #top_notifier
+    - if user_signed_in?
+      = render 'shared/mailer_modal'
+      #top_bar
+        = render 'shared/role_menu' if has_role?
+        #current
+          Welcome,
+          = succeed "." do
+            %strong= link_to name_of(current_user.person, true), current_user.person
+          = link_to '[x]', destroy_user_session_path, :confirm => "Are you sure you want to log out as #{name_of current_user.person, true}?"
+      #container.group
+        #bgwrap.group
+          #primary_left
+            #logo
+              'class="pad_it"'.html_safe if has_access? ['super_admin', 'rector', 'core'], false &gt;
+              %a{:href => dashboard_path, :title => "Dashboard"}
+                %img{:alt => "", :src => "/images/logo.png"}/
+            / logo end
+            %div{:style => "padding: 0 5px; margin-top: 70px; margin-left:20px; border-left: #ccc solid 10px;"}
+              %h3{:style => "margin:0 0 4px;"}= current_user.person.community
+              %p{:style => "font-size:11px;"}
+                = current_user.person.community.street
+                %br/
+                = "#{current_user.person.community.city}, #{current_user.person.community.state.short} #{current_user.person.community.postal}"
+                %br/
+                Phone: #{current_user.person.community.phone}
+                %br/
+                Web: #{link_to truncate(current_user.person.community.friendly_url, :length => 20), current_user.person.community.url, :target => :blank}
+            #menu
+              / navigation menu
+              %ul
+                %li
+                  current_class_for 'dashboard' &gt;
+                  %a{:href => dashboard_path}
+                    = image_tag '/images/icons/small_icons_3/Home.png'
+                    %span current_class_for 'dashboard' &gt;Dashboard
+                - if has_access? ['fourth_day_couple', 'rector', 'core', 'leader'], false
+                  %li
+                    current_class_for 'people' &gt;
+                    %a{:href => "#{filter_people_path('member')}"}
+                      %img{:alt => "", :src => "/images/icons/small_icons_3/users.png"}/
+                      %span current_class_for 'people' &gt;All People
+                - if has_access? ['fourth_day_couple','pre_weekend_couple'], false
+                  %li
+                    current_class_for 'candidates' &gt;
+                    %a{:href => "javascript:void(0);"}
+                      %img{:alt => "", :src => "/images/icons/small_icons/Clipboard.png"}/
+                      %span Candidates
+                    %ul
+                      %li= link_to "Applications (#{nomination_count})", nominations_path
+                      %li.spacer
+                      %li= link_to "Approved (#{@global_candidates.count})", queue_path
+                      %li= link_to "Invited (#{@global_candidates.pre_status('invited').count})", invited_queue_path
+                      %li= link_to "Confirmed (#{@global_candidates.pre_status('accepted').count})", confirmed_queue_path
+                      %li.spacer
+                      %li= link_to "**Postponed (Protected)**", protected_queue_path
+                %li
+                  current_class_for 'weekends' &gt;
+                  %a{:href => "javascript:void(0);"}
+                    %img{:alt => "", :src => "/images/icons/small_icons_3/cal.png"}/
+                    %span Weekends
+                  %ul
+                    %li= link_to 'Current Weekend', events_path
+                    %li= link_to 'Past Weekends', archived_events_path
+                    %li= link_to 'Set Up a New Weekend', new_event_path if has_access? 'rector', false
+                - if has_access? ['leader','rector'], false
+                  %li
+                    current_class_for 'reports' &gt;
+                    %a{:href => "javascript:void(0);"}
+                      %img{:alt => "", :src => "/images/icons/small_icons_3/Reports.png"}/
+                      %span Reports
+                    %ul
+                      %li= link_to 'Rector Qualification', rector_report_path if has_access? 'leader', false
+                      %li= link_to 'Experience Search', experience_report_path if has_access? ['leader','rector'], false
+                - if has_access? 'super_admin'
+                  %li
+                    current_class_for 'settings' &gt;
+                    %a{:href => "javascript:void(0);"}
+                      = image_tag '/images/icons/small_icons/Application.png'
+                      %span current_class_for 'settings' &gt;Settings
+                    %ul
+                      %li= link_to 'Positions', positions_path
+                      %li= link_to 'Custom Attributes', attributes_path
+                      %li= link_to 'Roles + Security', roles_path
+                      %li= link_to 'Email Templates', mail_templates_path
+                      %li= link_to 'Community Profile', edit_community_path(community_id)
+            / navigation menu end
+          / sidebar end
+          #primary_right
+            .inner.pad_it
+              - if content_for? :header
+                #sub_menu
+                  #current
+                    = yield :header
+                  = yield :nav
+              - else
+                #line
+                  / 
+                #background
+                  #container
+                    #logo
+                      %img{:alt => "Logo", :src => "/images/logologin.png"}/
+                    #box
+                      - if notice
+                        .notification.success
+                          %span
+                          .text
+                            %p= notice.html_safe
+                      - if alert
+                        .notification.error
+                          %span
+                          .text
+                            %p= alert.html_safe
+                      = yield
+                      - if user_signed_in?
+                    / inner
+                  / primary_right
+                / bgwrap
+            / container
+            - else
+    = javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js', '//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js', 'jquery.autocomplete.js', 'jquery.hoverIntent.minified.js', 'jquery.cookie.js', 'jquery_ujs.js', 'jquery.checkbox.min.js', 'tooltipsy.min.js', 'jquery.tablesorter.min.js', 'visualize.jQuery.js', 'iphone-style-checkboxes', 'jquery.cleditor.min.js', 'jquery.elastic.js', 'jquery.reveal', 'custom', 'application'
+    = javascript_tag do
+      = yield :javascripts

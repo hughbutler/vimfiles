@@ -1,0 +1,28 @@
+- if params[:candidates].present? && params[:candidates] == 'true'
+  First	Last	Address	City	State	Zipcode	Email	Home	Cell	Church
+  - @candidates.attended.each do |attendee|
+    = attendee.person.first_name
+    = attendee.person.last_name
+    = attendee.person.street
+    = attendee.person.city
+    = attendee.person.state.short
+    = attendee.person.postal
+    = attendee.person.email
+    = attendee.person.main_phone
+    = attendee.person.mobile_phone
+    = attendee.person.church_name
+- else
+  First	Last	Position	Aux Position	Address	City	State	Zipcode	Email	Home	Cell	Church
+  - @team.attended.each do |attendee|
+    = attendee.person.first_name
+    = attendee.person.last_name
+    = attendee.position.try(:title)
+    = attendee.aux_position.try(:title)
+    = attendee.person.street
+    = attendee.person.city
+    = attendee.person.state.try(:short)
+    = attendee.person.postal
+    = attendee.person.email
+    = attendee.person.main_phone
+    = attendee.person.mobile_phone
+    = attendee.person.church_name

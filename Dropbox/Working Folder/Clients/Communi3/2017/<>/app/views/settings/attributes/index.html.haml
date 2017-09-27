@@ -1,0 +1,20 @@
+= render "menu"
+%table.normal.tablesorter
+  %thead
+    %tr
+      %th Attribute
+      %th Hint
+      %th Is searchable
+      %th Attribute type
+      %th Attribute position
+      %th
+      %th
+  %tbody
+    - @attributes.each do |attribute|
+      %tr
+        %td= link_to attribute.title, [:edit, :settings, attribute]
+        %td= attribute.hint_field
+        %td= attribute.is_searchable
+        %td= attribute.type.try(:tag)
+        %td= attribute.position.try(:tag)
+        %td= link_to 'Delete', [:settings, attribute], :confirm => 'Are you sure?', :method => :delete

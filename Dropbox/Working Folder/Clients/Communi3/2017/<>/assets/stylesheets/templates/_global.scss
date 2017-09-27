@@ -1,0 +1,186 @@
+@import "../components/tpl.topbar";
+@import "../components/tpl.leftnav";
+@import "../components/el.modules";
+
+$bodyBackgroundColor: #297DCE;
+
+#wrapper {
+    padding: $columnGutter ($columnGutter / 2);
+
+    .columns.side {
+        .module {
+            margin-top: 20px;
+        }
+    }
+}
+
+html {
+    body {
+        background: $bodyBackgroundColor;
+        font-family: $fontFamily;
+        font-size: 14px;
+        line-height: 20px;
+        padding: 0 0 0 60px;
+
+        @include desktop {
+            padding: 0 40px 0 74px;
+        }
+
+
+        .bubble {}
+
+        main {
+            background: #FFFFFF;
+            box-shadow: 2px 20px 24px 0 #003263;
+            padding: 24px 40px;
+
+            header {
+                border-bottom: 1px solid #C5DBF1;
+                padding: 12px 0 28px 0;
+
+                h1 {
+                    font-weight: $thin;
+
+                    a {
+                        color: #4182C9;
+                        text-decoration: none;
+                    }
+                }
+
+                .button {
+                    font-size: 12px;
+                    font-weight: $thin;
+                    padding: 8px 16px;
+                    min-width: 0;
+
+                    &:before {
+                        content: '+';
+                        font-size: 20px;
+                        font-weight: $thin;
+                        margin-right: 12px;
+
+                        @include relative;
+                    }
+                }
+            }
+
+            aside {
+                background: #ddecfb;
+                border-radius: 0 4px 4px 0;
+                padding: 32px 24px;
+
+                nav {
+                    display: block;
+                    position: static;
+
+                    p {
+                        color: #102F56;
+                        font-size: 14px;
+                        font-weight: 500;
+                        line-height: 20px;
+                        margin: 0 0 20px;
+
+                        a {
+                            border-top: 1px solid #C5DBF1;
+                            color: #3D90E7;
+                            display: block;
+                            font-size: 14px;
+                            line-height: 20px;
+                            padding: 16px 0;
+                            text-decoration: none;
+
+                            @include transition(all 0.3s ease);
+
+                            &:hover {
+                                padding-left: 16px;
+                            }
+
+                            &:first-child {
+                                border: 0;
+                            }
+
+                            &.active {
+                                color: #102F56;
+                                font-weight: bold;
+
+                                &:not(.letter) {
+                                    background: url("../images/icon-eye.png") no-repeat left center;
+                                    background-size: 12px 8px;
+                                    padding-left: 16px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            @include desktop {
+                border-radius: 4px;
+                position: relative;
+
+                &.side-column {
+                    padding: 24px 332px 24px 40px;
+                }
+
+                aside {
+                    @include absolute(top 0 right 0 bottom 0);
+
+                    width: 292px;
+                }
+            }
+
+
+            article {}
+
+            section {}
+        }
+    }
+}
+
+#meetings {
+    li {
+        padding: 0 8px 8px 0;
+
+        a {
+            color: #858ec6;
+            font-size: 20px;
+            font-weight: $thin;
+            text-decoration: none;
+        }
+    }
+}
+
+.meetings.small_attendance {
+    white-space: nowrap;
+
+    li {
+        display: inline;
+        padding: 0 0px 0 0;
+
+        span.icon {
+            $fontSize: 14px;
+            $contSize: 20px;
+
+            border-radius: 2px;
+            background: #c5dbf1;
+            color: #858ec6;
+            display: inline-block;
+            font-size: $fontSize;
+            font-weight: $thin;
+            height: $contSize;
+            line-height: $contSize;
+            opacity: 0.65;
+            text-align: center;
+            text-decoration: none;
+            width: $contSize;
+
+            &.checked {
+                background: $colorVarBlue;
+                color: #fff;
+                opacity: 1;
+            }
+        }
+    }
+}
+
+@import "templates/people";

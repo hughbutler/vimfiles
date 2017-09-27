@@ -1,0 +1,13 @@
+%p#notice= notice
+%p
+  %b Community:
+  = @mail_template.community_id
+%p
+  %b Blurb:
+  = @mail_template.blurb
+%p
+  %b Type:
+  = @mail_template.type
+= link_to 'Edit', edit_mail_template_path(@mail_template)
+|
+= link_to 'Back', mail_templates_path

@@ -1,0 +1,10 @@
+- content_for :header, 'People'
+- content_for :nav do
+  %ul#nav
+    - if has_access? ['fourth_day_couple', 'rector', 'core', 'leader'], false
+      %li
+      = current_class_for 'top_add_member'
+      \&gt;#{link_to 'Add Team Member to Database', new_person_path if has_access? ['rector', 'core'], false}
+    %li
+    = current_class_for 'top_member'
+    \&gt;#{link_to 'Directory', filter_people_path('member')}

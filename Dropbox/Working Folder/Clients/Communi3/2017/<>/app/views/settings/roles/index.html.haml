@@ -1,0 +1,41 @@
+= render "menu"
+%table.normal.tablesorter
+  %thead
+    %tr
+      %th Person
+      %th
+      %th
+  %tbody
+    - @roles.each do |role|
+      %tr.splitter
+        %td{:colspan => "2"}= role.long
+        %td{:style => "padding-right:0"}
+          %a.button_link.small.invert.mod{"data-animation" => "fade", "data-id" => "#{role.id}", "data-reveal-id" => "myModal", "data-title" => "#{role.long}", :href => "#"} + add
+      - role.people.order('last_name asc, first_name asc').each do |person|
+        %tr
+          %td= link_to name_of(person), person
+          %td
+          %td= link_to 'remove', settings_role_path(person.id), :confirm => 'Are you sure?', :method => :delete if !current_user? person
+      = '<tr><td colspan="3" class="disabled">No one has been assigned this role.</td></tr>'.html_safe if role.people.empty?
+
+#myModal.reveal-modal
+  %h1 Select a person.
+  %p
+    Select a person to add to the
+    = succeed "." do
+      %b.title group
+  = form_tag '/roles', :method => :post do
+    %input.role_id{:name => "role_id", :type => "hidden", :value => ""}/
+    %select{:name => "person_id"}
+      - @people.each do |person|
+        %option{:value => "#{person.id}"}= name_of person
+    = submit_tag 'Add as ', :class => 'title'
+  %a.close-reveal-modal ×
+- content_for :javascripts do
+  $(document).ready(function(){
+  $('.mod').click(function(){
+  $('#myModal .title').html($(this).attr('data-title')+' group');
+  $('#myModal input.title').val('Add to '+$(this).attr('data-title'));
+  $('#myModal .role_id').val($(this).attr('data-id'));
+  });
+  });

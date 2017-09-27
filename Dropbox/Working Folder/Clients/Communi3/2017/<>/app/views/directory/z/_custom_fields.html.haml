@@ -1,0 +1,75 @@
+- if @attribute_answers.by_position(tag).present?
+  %h3
+    = tag.titleize
+    Questions
+    %a.js-inline-editor-toggle.button_link.custom_field_togglelink Edit
+  .display
+    - @attribute_answers.by_position(tag).each do |answer|
+      %p.data
+        %span.label
+          = answer.attribute.to_s
+          \:
+        = display answer.to_s
+  .form.rounded_box.white.custom_field_form{:style => "display:none;"}
+    = form_tag update_individual_attribute_answers_path, :class => 'formlet', :method => :put do
+      - @attribute_answers.by_position(tag).each do |answer|
+        = fields_for "attribute_answers[]", answer do |builder|
+          %p
+            = builder.label answer.attribute.title
+            = case answer.attribute.attribute_type.tag                                                                                                         |
+              when 'select' then builder.collection_select :title, answer.attribute.attribute_values.map(&:title), :title, :title, {:selected => answer.title} |
+                 #=> :selected => [1,2,3,4]                                                                                                                    |
+              when 'input' then builder.text_field :title                                                                                                      |
+              when 'textarea' then builder.text_area :title                                                                                                    |
+              end                                                                                                                                              |
+      = submit_tag "Save (Will refresh page)", class: 'submit'
+:css
+  .custom_field_togglelink {
+    background: #ccc;
+    display: inline-block;
+    font-size: 11px !important;
+    line-height: 1;
+    margin-left: 15px;
+    padding: 3px 5px !important;
+    text-decoration: none;
+  }
+
+  .custom_field_form {
+    position: relative;
+  }
+  .custom_field_form form .cancel_link {
+    color: blue;
+    cursor: pointer;
+    margin: 0 !important;
+    padding: 0 10px;
+  }
+  .custom_field_togglelink {
+  }
+
+  .custom_field_form h2 {
+  }
+
+  .custom_field_form hr {
+    margin: 0;
+  }
+
+  .custom_field_form p {
+    border-bottom: 1px solid #e5e5e5;
+    margin: 0;
+    overflow: hidden;
+    padding: 12px 0;
+  }
+
+  .custom_field_form label {
+    float: left;
+    font-weight: bold;
+    padding-right: 20px;
+    width: 130px;
+  }
+  .custom_field_form input,
+  .custom_field_form select {
+  }
+
+  .custom_field_form input.submit {
+    margin: 12px 0;
+  }

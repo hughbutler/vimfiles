@@ -1,0 +1,28 @@
+@mixin col-name($colNumInt, $colNumString) {
+  .#{$colNumString},
+  .row .#{$colNumString},
+  .col-md-#{$colNumInt},
+  .row .col-md-#{$colNumInt},
+  .col-xs-#{$colNumInt},
+  .row .col-xs-#{$colNumInt} {
+
+    @if $colNumInt < 7 {                                                     // 5
+      width: 50%;
+    }
+    @else {
+      width: 100%;
+    }
+
+    @include tablet {
+      width: #{((100/12)*$colNumInt) + '%'};
+    }
+  }
+
+}
+
+@mixin columns($cols) {
+   columns: $cols;
+  -webkit-columns: $cols;
+  -moz-columns: $cols;
+}
+

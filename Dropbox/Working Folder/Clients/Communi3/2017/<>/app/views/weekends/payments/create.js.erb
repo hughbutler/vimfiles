@@ -1,0 +1,23 @@
+var rows = document.querySelectorAll('tr[data-attendee-id="<%=@attendee.id-%>"]');
+
+var forms = "<%=@attendee.fa_granted ? 'FA GRANTED' : @attendee.fa_needed ? 'FA REQUESTED' : '' -%>"
+var positions = "<%=@attendee.positions-%>";
+var team_total = "<%=number_to_currency @attendee.person.total_fees_paid(@weekend.id)-%>";
+var team_donations = "<%=number_to_currency @attendee.person.total_donations(@weekend.id)-%>";
+var fa_total = "<%=@attendee.fa_granted ? number_to_currency(@attendee.fa_amount_granted) : '$0.00'-%>";
+var total = "<%=number_to_currency(@attendee.person.total_payments(@weekend.id))-%>";
+
+for( let i = 0; i < rows.length; i++ ) {
+    let row = rows[i];
+    row.querySelector('span.js-fa').innerText = forms;
+    row.querySelector('span.js-positions').innerText = positions;
+    row.querySelector('span.js-team-total').innerText = team_total;
+    row.querySelector('span.js-team-donations').innerText = team_donations;
+    row.querySelector('span.js-fa-total').innerText = fa_total;
+    row.querySelector('span.js-total').innerText = total;
+}
+
+$('#new_weekend_payment')[0].reset();
+
+total += ' paid (updated just now)';
+document.querySelector('p.new_weekend_payment_total').innerText = total;

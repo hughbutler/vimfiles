@@ -1,0 +1,12 @@
+{
+  "name": "communi3",
+  "version": "2.0",
+  "main": "index.js",
+  "repository": "git@github.com:hughbutler/communi3.git",
+  "author": "hugh butler",
+  "license": "MIT",
+  "private": null,
+  "dependencies": {
+    "blendid": "^4.2.0"
+  }
+}

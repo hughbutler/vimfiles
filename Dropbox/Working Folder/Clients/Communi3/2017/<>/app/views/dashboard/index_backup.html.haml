@@ -1,0 +1,92 @@
+- if has_access? ['super_admin', 'rector', 'core'], false
+  %h1 The Next Weekend(s)...
+  %ul.pretty_list.focal_box
+    %li
+      %b Select a weekend to manage:
+    - @events.each do |event|
+      %li
+        = link_to 'MANAGE WEEKEND', event, :class => 'button_link manage'
+        %span{:style => "width:200px;"}
+          %b= event.title
+          %em{:style => "font-size:.9em;"}= event.gender == 'male' ? 'Men' : 'Women'
+          %br/
+          = event.start_date.to_s(:short)
+          to #{event.end_date.to_s(:short)}
+          - if has_access? ['super_admin', 'rector']
+            (#{link_to 'edit?', edit_event_path(event)})
+    %li
+      = link_to 'Set Up a New Weekend', new_event_path, :class => 'button_link' if has_access? ['super_admin', 'rector']
+      = link_to 'View all', events_path, :class => 'button_link'
+%h1 Dashboard
+%ul.dash
+  %li.fade_hover.tooltip{:title => "Sponsorship Form"}
+    %a{:href => new_nomination_path}
+      %img{:alt => "", :src => "/images/icons/dashboard/44.png"}/
+      %span Sponsor Form
+  %li.fade_hover.tooltip{:title => "Submit a Team Application"}
+    %a{:href => new_team_app_path}
+      %img{:alt => "", :src => "/images/icons/dashboard/2.png"}/
+      %span Team App
+  %li.fade_hover.tooltip{:title => "Edit my information"}
+    %a{:href => "#{person_path current_user.person_id}"}
+      %img{:alt => "", :src => "/images/icons/dashboard/47.png"}/
+      %span My Profile
+%hr/
+- if has_access? 'pre_weekend_couple'
+  %div{:style => "display:block; overflow:hidden;"}
+    .two_third.column
+      .portlet
+        .portlet-header Pre-Weekend Management
+        .portlet-content{:style => "display: block;"}
+          %p You're in charge of the queue. Here's where you can go to manage it!
+          %ul{:style => "list-style:none"}
+            %li
+              = link_to "Process Pending Applications", nominations_path
+              - if nomination_count > 0
+                (#{nomination_count})
+            %li  
+            %li
+              %b Qualified Applications In the Queue:
+            %li= link_to 'All Candidates', queue_path
+            %li= link_to 'Invited Candidates', invited_queue_path
+            %li= link_to 'Confirmed Candidates', confirmed_queue_path
+- if has_access? ['super_admin', 'rector']
+  %hr/
+  %div{:style => "display:block; overflow:hidden;"}
+    .two_third.column
+      .portlet
+        .portlet-header Upcoming Weekends
+        .portlet-content{:style => "display: block;"}
+          %p You're in charge of the queue. Here's where you can go to manage it!
+          %ul{:style => "list-style:none;"}
+            - @events.each do |event|
+              %li{:style => "overflow:hidden; padding: 5px 0;"}
+                %span{:style => "width:200px;"}
+                  %b= link_to event.title, event
+                  %em{:style => "font-size:.9em;"}= event.gender == 'male' ? 'Men' : 'Women'
+                  %br/
+                  = event.start_date.to_s(:short)
+                  to #{event.end_date.to_s(:short)}
+            %li
+              = link_to 'Set Up a New Weekend', new_event_path, :class => 'button_link'
+              = link_to 'View all', events_path, :class => 'button_link'
+  %h1{:style => "display:none;"} Other
+  %ul.dash{:style => "display:none;"}
+    %li.fade_hover.tooltip{:title => "Manage Users (3 new users)"}
+      %span.bubble 3
+      %a{:href => "#"}
+        %img{:alt => "", :src => "/images/icons/dashboard/54.png"}/
+        %span People
+    %li.fade_hover.tooltip{:title => "Website Statistics"}
+      %a{:href => "#"}
+        %img{:alt => "", :src => "/images/icons/dashboard/81.png"}/
+        %span Reports
+    %li.fade_hover.tooltip{:title => "Time Schedule"}
+      %a{:href => "#"}
+        %img{:alt => "", :src => "/images/icons/dashboard/14.png"}/
+        %span Schedule
+    %li.fade_hover.tooltip.dialog_link{:title => "End current session"}
+      %a{:href => destroy_user_session_path}
+        %img{:alt => "", :src => "/images/icons/dashboard/118.png"}/
+        %span Logout
+  / end dashboard items

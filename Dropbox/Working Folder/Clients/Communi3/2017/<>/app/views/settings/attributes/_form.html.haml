@@ -1,0 +1,24 @@
+= form_for [:settings, @attribute], :html => {:id => 'attribute_form'} do |f|
+  = render 'form_errors', entity: @attribute
+
+  %fieldset
+    %legend Core Information
+    %h2 General Info
+    = tf(f, :title, 'Question Topic', placeholder: 'Shirt Size')
+    -# = f.input :title, :label => 'Question Topic', :hint => 'This is a short title.', :placeholder => 'Shirt Size'
+    = ta(f, :hint_field, 'Description of this field')
+    -# = f.input :hint_field, :label => 'Description of this field'
+    = s(f, :attribute_type_id, 'Description of this field', Attribute::Type.select('id, title').order('title'))
+    -# = f.input :attribute_type_id, :as => :select, :collection => AttributeType.select('id, title').order('title')
+    #attribute_available_answers_wrapper{ class: "#{'hide_it' if !@attribute.has_available_answers?}" }
+      = tf(f, :available_answers, nil, hint: 'Separate with commas (ie: red, light blue, etc)')
+  %fieldset
+    %legend Additional
+    = s(f, :attribute_position_id, Attribute::Position.order('title').collect { |e| [e.title, e.id] })
+  %fieldset
+    %legend Is Searchable?
+    %p
+      = cb(f, :is_searchable, 'Should this field be searchable in reports?', value: '1')
+      -# %input#acknowledge.boolean{:name => "attribute[is_searchable]", :type => "checkbox", :value => "1"}/
+      -# Should this field to be searchable in reports?
+  = f.button :submit

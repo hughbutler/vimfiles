@@ -1,0 +1,6 @@
+= render 'form'
+- if has_access? 'super_admin'
+  %fieldset
+    %legend Delete this Weekend?
+    %p
+      It is not recommended that you delete a weekend, but in the rare instance that this weekend was made mistakenly, you can #{link_to 'click here to delete the entire weekend.', @event, :method => :delete, :confirm => 'Are you sure you want to delete this weekend?'}.

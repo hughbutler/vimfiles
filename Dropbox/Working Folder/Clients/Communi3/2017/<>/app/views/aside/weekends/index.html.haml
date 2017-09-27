@@ -1,0 +1,26 @@
+-# %nav
+-#   %p More about weekends...
+-#   %p
+-#     = link_for 'Up', settings_community_path
+-#     = link_for 'Custom Fields', settings_attributes_path
+%nav
+  - @upcoming.each do |weekend|
+    %p #{format_date(next_weekend.start_date, :short)} - #{format_date(next_weekend.end_date, :short)}"
+
+    %p
+      = link_for 'Manage the Meetings', weekend_meetings_path(weekend), :class => 'button_link' if has_access? ['core','leader','rector'], false
+
+%nav
+  %p More in weekends...
+  %p
+    -# = link_for 'Community Profile', settings_community_path
+    -# = link_for 'Custom Fields', settings_attributes_path
+    -# = link_for 'Weekend Positions', settings_positions_path
+    -# = link_for 'User Access', settings_roles_path
+    -# = link_for 'Mail Templates', settings_mail_templates_path
+
+    -# = link_for 'Financial Assistance', event_event_attendees_path(event), :class => 'button_link' if has_access? ['leader','rector'], false
+    -# = link_for 'Team Fees', event_ledger_path(event), :class => 'button_link' if has_access? ['core','leader','rector'], false
+    -# = link_for 'Donations', event_general_funds_path(event), :class => 'button_link' if has_access? ['core','leader','rector'], false
+    -# = link_for 'Download Roster', roster_event_event_attendees_path(event, :format => 'xls'), :class => 'button_link' if has_access? ['core','leader','rector'], false
+    -# = link_for 'Finalize & Close Weekend', event_closeout_path(event), :class => 'button_link' if has_access?(['core','leader','rector','fourth_day_couple'], false)

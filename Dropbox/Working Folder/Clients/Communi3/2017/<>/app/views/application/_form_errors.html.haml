@@ -1,0 +1,10 @@
+-# pluralize(entity.errors.count, "error")
+-# - friendly_entity_text = defined?(entity_name) ? entity_name : entity.class.name.underscore.humanize.downcase
+
+- if entity.errors.any?
+  #errorExplanation
+    %h2= "Houston, there is a problem:"
+    %ul
+      - entity.errors.full_messages.each do |message|
+        %li= message
+    -# %p= entity.errors.full_messages.join(', ')

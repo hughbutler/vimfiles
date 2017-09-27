@@ -1,0 +1,66 @@
+@import "compass";
+@import "../lib/mixins";
+@import "../lib/colors";
+
+@import url("https://fonts.googleapis.com/css?family=Lato:300,400,700,900");
+
+h1 {
+    color: #222426;
+    display: block;
+    font-size: 16px;
+    line-height: 18px;
+    font-weight: 500;
+
+    a {
+        text-decoration: none;
+    }
+
+    em {
+        color: #D1CECE;
+        display: block;
+        font-size: 12px;
+        font-weight: normal;
+    }
+
+    .button {
+        margin-left: 8px;
+        position: relative;
+        top: -2px;
+    }
+
+    @include respond-to(large) {
+        font-size: 16px;
+        line-height: 16px;
+
+        em {
+            font-size: 13px;
+        }
+    }
+
+
+    b {}
+}
+
+h2 {
+    color: #222426;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 16px;
+    margin: 32px 0 12px;
+
+    @include respond-to(tablet) {}
+}
+
+h3 {
+    @include respond-to(tablet) {}
+}
+
+b {
+    font-weight: 700;
+}
+
+p {
+    font-size: 16px;
+
+    @include respond-to(tablet) {}
+}

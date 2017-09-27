@@ -1,0 +1,4 @@
+%h1
+  Setting up the next upcoming #{(current_user.gender == 'male') ? "men's" : "women's" unless current_user.admin?} weekend...
+= render 'form'
+= link_to 'Cancel', weekends_path

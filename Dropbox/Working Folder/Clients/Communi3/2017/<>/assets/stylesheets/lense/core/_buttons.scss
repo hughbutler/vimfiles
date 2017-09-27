@@ -1,0 +1,157 @@
+/*
+
+All menuing components will be here
+
+[01] Clickable Menu
+[02] Hoverable Menu
+[03] Main Menu Nav
+
+------------------------------------------------- */
+// @import "_inc";
+
+$buttonBackgroundColor: #4182C9;
+$buttonBorder: none;
+$buttonHighlightBackgroundColor: #4182C9;
+$buttonFontColor: #fff;
+
+$secondaryButtonBackgroundColor: red;
+$secondaryButtonBorder: none;
+$secondaryButtonHighlightBackgroundColor: red;
+$secondaryButtonFontColor: red;
+
+/*------------------------------------------------- */
+
+/* [01] Default Button
+--------------------------------------------------------------------------------------- //// */
+/* defaults ----------------------------------------------- //// */
+.button {
+    background: $buttonBackgroundColor;
+    border: none;
+
+    // box-shadow:     inset 0 -5px 0 0 #727CB4;
+    border-radius: 4px;
+    color: $buttonFontColor;
+    cursor: pointer;
+    display: inline-block;
+    font-family: $fontFamily;
+    font-size: 16px;
+    font-weight: $bold;
+    line-height: 20px;
+    min-width: 190px;
+    padding: 16px 20px;
+    text-align: center;
+    text-decoration: none;
+
+    // background-image: linear-gradient(-180deg, #3D7ABE 0%, #306DB0 100%);
+    // @include transition(all 0.25s ease);
+
+    @include transition(all 0.5s $animEasing);
+
+    &:hover {
+        background: $buttonHighlightBackgroundColor;
+    }
+
+    /* disabled ----------------------------------------------- //// */
+    &.disabled {
+        cursor: default;
+    }
+
+    &.disabled,
+    &.disabled:active,
+    &.disabled:hover {
+        background: $buttonBackgroundColor;
+        color: rgba(0, 0, 0, 0.35);
+        opacity: 0.5;
+    }
+
+    &.alt {
+        background: none;
+        border: 1px solid #FD7777;
+        color: #FD7777;
+    }
+
+    &.small {
+        font-size: 12px;
+        line-height: 16px;
+        padding: 4px 8px;
+    }
+
+    &:active {
+        /* Rectangle 18 Copy 4: */
+        // background-image: linear-gradient(-180deg, #8EEFF4 3%, #7AD8E3 99%);
+   
+    }
+
+    &:hover {
+        // background-image: linear-gradient(-180deg, #00D5E0 1%, #00B0C5 99%);
+   
+    }
+
+    /* [02] Secondary Button
+    --------------------------------------------------------------------------------------- //// */
+
+    &.secondary {
+        background: $secondaryButtonBackgroundColor;
+        box-shadow: inset 0 -5px 0 0 #C7CBEB;
+        color: $secondaryButtonFontColor;
+
+        &:hover {
+            background: $secondaryButtonHighlightBackgroundColor;
+            border: $secondaryButtonBorder;
+            color: blue;
+        }
+
+        &.disabled,
+        &.disabled:active,
+        &.disabled:hover {
+            color: pink;
+            opacity: 0.75;
+        }
+    }
+}
+
+/* blue ----------------------------------------------- //// */
+.blue.button {
+    background: -webkit-gradient(linear, left top, left bottom, from(#628FBC), to(#38608A));
+    border-color: #628FBC;
+    color: #d9eef7;
+}
+
+.blue.button:hover {
+    background: -webkit-gradient(linear, left top, left bottom, from(#6797c9), to(#406e9e));
+}
+
+.blue.button:active {
+    color: #80bed6;
+}
+
+/* green ----------------------------------------------- //// */
+.green.button {
+    background: -webkit-gradient(linear, left top, left bottom, from(#8fce7a), to(#5ca640));
+    border-color: #65a950;
+    color: #d9eef7;
+}
+
+.green.button:hover {
+    background: -webkit-gradient(linear, left top, left bottom, from(#95d67e), to(#61b243));
+}
+
+.green.button:active {
+    color: #b2e59f;
+}
+
+/* red ----------------------------------------------- //// */
+.red.button {
+    background: -webkit-gradient(linear, left top, left bottom, from(#c65555), to(#b04b4b));
+    border-color: #a04343;
+    color: #f0dede;
+}
+
+.red.button:hover {
+    background: -webkit-gradient(linear, left top, left bottom, from(#d95e5e), to(#c25353));
+    color: #fff;
+}
+
+.red.button:active {
+    color: #e7afaf;
+}

@@ -1,0 +1,26 @@
+%tr{:class => "event-attendance-#{attendance.id}"}
+  %td{:style => ""}
+    = attendance.event.gender.upcase
+  %td
+    - #if has_access? ['rector', 'fourth_day_couple', 'leader', 'core'], false
+    - if has_access? ['super_admin', 'leader']
+      = link_to (attendance.candidate? ? 'Candidate' : attendance.positions.gsub(/, /,'<br/>').html_safe), 'javascript:void()', :class => 'js-edit-position'
+      %div{:style => "display:none;"}
+        = form_for [attendance.event, attendance], :remote => true, :html => { :class => 'js-position', :style => 'margin: 0;' } do |f|
+          = select_tag "event_attendee[position_id]", options_for_select(community_positions, attendance.position_id), :style => 'width: 150px;'
+          = select_tag "event_attendee[aux_position_id]", options_for_select(community_positions, attendance.aux_position_id), :style => 'width: 150px;'
+          = succeed "saves" do
+            %br/
+          = link_to 'cancel', 'javascript:void()', :class => 'js-cancel-edit-position'
+          or
+          \#{link_to 'permanently delete', [attendance.event, attendance], :method => :delete, :remote => true, :confirm => 'Are you sure you want to delete this attendance?'}
+    - else
+      = attendance.position.try(:title) || "Candidate"
+  %td
+    %b= attendance.event.try(:title)
+    %br/
+    - if attendance.event.present?
+      = format_date attendance.event.start_date
+      to #{format_date attendance.event.end_date}
+  %td= attendance.event.present? && attendance.event.start_date <= DateTime.now ? (attendance.attended ? 'YES' : 'missed') : '-'
+  %td= "Applied for Financial Assistance<br/>(#{(attendance.fa_granted.present? or attendance.fa_granted ) ? number_to_currency(attendance.fa_amount_granted) : 'none'} granted)".html_safe if attendance.fa_needed

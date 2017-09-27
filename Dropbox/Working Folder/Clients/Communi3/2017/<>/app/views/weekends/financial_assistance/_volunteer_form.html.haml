@@ -1,0 +1,5 @@
+= fields_for "event_attendees[]", person do |f|
+  %tr
+    %td= f.check_box :schedule
+    %td= link_to person.last_name + ', ' + person.first_name, person
+    %td= f.select :position, options_from_collection_for_select(Position.community(community_id).order('title'), 'id', 'title'), :include_blank => true

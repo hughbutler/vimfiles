@@ -1,0 +1,196 @@
+/*
+
+Tag definitions. If tags require more, they're split
+into other sheets.
+
+[01] HTML & Body
+[01] 
+
+------------------------------------------------- */
+// @import "_inc";
+/*------------------------------------------------- */
+
+/* [01] HTML & Body
+--------------------------------------------------------------------------------------- //// */
+
+html, body {
+    background: $colorBackground;
+    color: $colorForeground;
+    font-family: $fontFamily;
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    line-height: 20px;
+    padding: 64px 0 0 200px;
+
+    @include transition(padding 0.35s $animEasing);
+
+    &.leftMode {
+        padding: 0 0 0 52px;
+
+        &.expandLeftMode {
+            padding: 0 0 0 200px;
+        }
+    }
+
+    &.rightPadding {
+        padding-right: 250px;
+    }
+}
+
+/* [02] Headers, P, etc
+--------------------------------------------------------------------------------------- //// */
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    font-style: normal;
+    margin: 0;
+    line-height: 1.1;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: $normal;
+}
+
+h2 {
+    font-size: 48px;
+}
+
+h3 {
+    font-size: 16px;
+}
+
+h4 {
+    font-size: 12px;
+    font-weight: $normal;
+}
+
+h5 {}
+
+h1 small {
+    font-size: 16px;
+}
+
+h2 small {
+    font-size: 14px;
+}
+
+h3 small {
+    font-size: 11px;
+}
+
+h1 {
+    color: #222426;
+    display: block;
+    font-size: 16px;
+    line-height: 18px;
+    font-weight: 500;
+
+    a {
+        text-decoration: none;
+    }
+
+    em {
+        color: #D1CECE;
+        display: block;
+        font-size: 12px;
+        font-weight: normal;
+    }
+
+    .button {
+        margin-left: 8px;
+        position: relative;
+        top: -2px;
+    }
+
+    @include desktop {
+        font-size: 16px;
+        line-height: 16px;
+
+        em {
+            font-size: 13px;
+        }
+    }
+
+
+    b {}
+}
+
+h2 {
+    color: #222426;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 16px;
+    margin: 32px 0 12px;
+}
+
+h3 {}
+
+// h2 {
+//     color: $colorBlack;
+//     font-size: 48px;
+//     line-height: 50px;
+//     margin: 24px 24px 44px;
+//
+//     /* accounts for the row padding/margin
+//     small {
+//         color: #8D929F;
+//         display: block;
+//         font-weight: $normal;
+//     }
+// }
+
+h3 {
+    line-height: 28px;
+    margin: 40px 0 0;
+}
+
+h4 {
+    color: #8D929F;
+}
+
+p {
+    color: #282E3D;
+    font-size: 14px;
+    font-weight: $thin;
+    line-height: 20px;
+    margin: 4px 0;
+    max-width: 100%;
+    text-align: left;
+}
+
+b {
+    font-weight: bold;
+}
+
+ul {
+    .data-row {
+        color: #202331;
+        font-size: 14px;
+        line-height: 20px;
+        padding: 4px 0 4px 200px;
+        position: relative;
+
+        &:nth-child(odd) {
+            background: #FBF9F9;
+        }
+
+        span {
+            color: #8D929F;
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 500;
+
+            @include absolute(left 0 top 4px);
+
+            padding-left: 8px;
+            width: 200px;
+        }
+    }
+}
+
+/* [04] Table
+--------------------------------------------------------------------------------------- //// */

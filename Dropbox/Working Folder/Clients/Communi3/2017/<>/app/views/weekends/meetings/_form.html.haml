@@ -1,0 +1,7 @@
+-# = link_to '', event_meeting_attendee_path(@event, meeting.id, person.id), :method => :delete, :class => "meeting #{number_to_word meeting.title} attended clear_attendance", :data => ".meeting.#{number_to_word meeting.title}", :style => "display:#{person.attended?(meeting) ? 'inline-block' : 'none'};"
+-# = form_tag "/events/#{@event.id}/meetings", :class => 'mark_attendance', :style => "display:#{person.attended?(meeting) ? 'none' : 'inline-block'};", :data => ".meeting.#{number_to_word meeting.title}"
+-# = hidden_field_tag :meeting_id, meeting.id
+-# = hidden_field_tag :person_id, person.id
+-# = image_submit_tag '/images/missing_mtg_attendance.png'
+%em
+  | Meeting #{number_to_word meeting.title}

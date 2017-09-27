@@ -1,0 +1,9 @@
+= simple_form_for(@position) do |f|
+  = f.error_messages
+  = f.input :title
+  .cats_wrapper
+    = f.input :category_1, :wrapper_html => { :class => 'cats' }
+    = f.input :category_2, :wrapper_html => { :class => 'cats' }
+    = f.input :category_3, :wrapper_html => { :class => 'cats' }
+    = f.input :category_4, :wrapper_html => { :class => 'cats' }
+  = f.button :submit

@@ -1,0 +1,131 @@
+= render 'menu'
+%h1= @person.to_s
+-# = render 'shared/members'
+-# <p class="data" <%= raw 'style="background:#ffe1c2;"' if @person.is_clergy %> ><span class="label">Is clergy?</span> <%= @person.is_clergy ? 'Yes' : 'No' %></p>
+
+%p
+  = @person.is_married ? (Married to +show_spouse_of(@person)).html_safe : ( @person.gender == 'male' ? 'Single Guy' : 'Single Woman' )
+
+  - if @person.email.present?
+    = link_to @person.email, "#{@person.email}", class: 'launch_mailer', to: @person.email, from: @person.to_s, mail_template_key: 'false'
+  - if @person.birthdate.present?
+    #{age @person.birthdate} years old
+
+  Added on #{@person.created_at.to_s(:short)}
+
+- if @person.is_scheduled_for_next_weekend? && attendance.position.present?
+  %p.person_note
+    Currently scheduled for #{ attendance.event.title }
+    as #{attendance.position.title}
+
+- if @person.candidate?
+  %p.person_note
+    Currently nominated as candidate
+    - if @person.birth_event.present?
+      for #{@person.birth_event.title}
+    - else
+      but not assigned to any weekend.
+
+.member_info
+  -# - if !@person.candidate?
+    <ul class="member_info_tabs">
+      <li><a href="#personal_info">Personal Information</a></li>
+      <% if current_user.person == @person || has_access?('super_admin') %>
+        <li style="<%= "display:none" if @person.candidate? %>"><a href="#user_login">User Login</a></li>
+      <% end %>
+      <li style="<%= "display:none" if @person.candidate? %>"><a href="#experience">Experience/History</a></li>
+      <% if can_view_sensitive_data? @person %>
+        <li style="<%= "display:none" if @person.candidate? %>"><a href="#financial">Financial History</a></li>
+      <% end %>
+      <% if has_access? 'super_admin', false %>
+        <li style="<%= "display:none" if @person.candidate? %>"><a href="#delete_panel">Delete Person</a></li>
+      <% end %>
+    </ul>
+
+  .display
+    - if @person.candidate?
+      %h3 Candidate Details
+      %ul
+        %li
+          %span
+            Who's Paying
+          = display @person.who_pays
+        %li
+          %span
+            Paid In Full:
+          = @person.has_paid ? 'YES' : 'NO'
+        %li
+          %span
+            Name on Tag:
+          = display @person.name_on_tag
+        %li
+          %span
+            Wants to Attend:
+          = @person.wants_to_attend ? 'YES' : 'NO'
+        %li
+          %span
+            Can Attend Last Minute?
+          = @person.attend_last_minute ? 'YES' : 'NO'
+        %li
+          %span
+            Special Needs:
+          = @person.notes
+        -# = render 'custom_fields', tag: 'nominee'
+
+        -# <p><%= link_to_function 'Edit contact details', 'Form.contact.show(this)' %></p>
+
+    %h3 Contact Information
+    %ul
+      %li
+        %span Who's Paying
+        = display @person.who_pays
+      %li
+        %span Full Name:
+        = display @person.to_s
+      %li
+        %span Gender:
+        = display @person.gender
+      %li
+        %span Email Address:
+        = link_to @person.email, @person.email, :class => 'launch_mailer', :to => @person.email, :from => name_of(current_user.person, true), :mail_template_key => 'false' if @person.email.present?
+      %li
+        %span Street Address:
+        = raw display(@person.address)
+      %li
+        %span Main Phone:
+        = display @person.main_phone
+      %li
+        %span Mobile Phone:
+        = display @person.mobile_phone
+      %li
+        %span Marital Status:
+        = raw @person.is_married ? "Married to #{show_spouse_of( @person )}" : "Single"
+      %li
+        %span Birthday:
+        = display @person.birthdate.to_s(:short) if @person.birthdate
+      %li
+        %span Emergency Contact Name:
+        = display @person.emergency_contact_name
+      %li
+        %span Emergency Contact Phone:
+        = display @person.emergency_contact_phone
+    %h3 Spiritual Details
+    %ul
+      %li
+        %span Is clergy?
+        = @person.is_clergy ? 'Yes' : 'No'
+      %li
+        %span Home Church:
+        = @person.church_name.present? ? @person.church_name : 'N/A'
+      %li
+        %span Sponsor:
+        = @person.parent.present? ? link_to( @person.parent.to_s, @person.parent ) : "N/A"
+
+    %h3 Miscellaneous
+    %ul
+      %li
+        %span Shirt Size:
+        = display @person.shirt_size
+      -# = render 'custom_fields', tag: 'member'
+
+

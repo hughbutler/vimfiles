@@ -1,0 +1,21 @@
+/*
+ *= require normalize-rails
+ *= require_self
+*/
+
+@import "compass";
+@import "lib/mixins";
+@import "lib/reset";
+@import "lib/fonts";
+@import "lib/elements";
+@import "lib/grid";
+@import "lib/forms";
+
+@import "third-party/classic";
+@import 'third-party/classic.date';
+
+@import "layout/template";
+// @import "layout/main";
+
+@import "pages/people";
+

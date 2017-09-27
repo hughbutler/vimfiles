@@ -1,0 +1,26 @@
+/*
+
+Typography is bringing fonts and styling them
+
+[01] Font Face
+[02] Base Styles
+[03] Headers
+[04] Misc
+
+------------------------------------------------- */
+$pre: "../fonts/";
+$iconName: "Communi3-Regular";
+
+/*------------------------------------------------- */
+
+/* [01] Font Face
+--------------------------------------------------------------------------------------- //// */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+@font-face {
+    font-family: $fontIconFamily;
+    src: url("#{$pre}#{$iconName}r.eot");
+    src: url("#{$pre}#{$iconName}.eot?#iefix") format("embedded-opentype"), url("#{$pre}#{$iconName}.woff") format("woff"), url("#{$pre}#{$iconName}.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}

@@ -1,0 +1,49 @@
+%h1 Record Attendance (Be Careful!)
+%p
+  Check the boxes next to the people who attended and uncheck if they did not.
+  %br/
+  %b Note: Candidates who are not marked as attended will be deleted permanently.
+.clearboth
+%hr/
+%fieldset.alt
+  %legend
+    Candidates (#{@candidates.count})
+  - if @candidates.empty?
+    %p
+      No candidates are listed.
+  - else
+    %table.normal.tablesorter
+      %thead
+        %tr
+          %th
+          %th Name
+          %th{:style => "text-align:right;", :width => "200"} Position
+      %tbody
+        - @candidates.each do |attendee|
+          = render :partial => 'attendance_form', :locals => { :attendee => attendee, :event => @event }
+    %p
+      = link_to "#{image_tag 'icons/small_icons/Download.png'} Candidates CSV (selected only)".html_safe, event_closeout_path( :candidates => true, :format => :xls ), :style => 'text-decoration:none;'
+%fieldset.alt
+  %legend
+    Team (#{@team.count})
+  - if @team.empty?
+    %p
+      No team members are listed.
+  - else
+    %table.normal.tablesorter
+      %thead
+        %tr
+          %th
+          %th Name
+          %th{:style => "text-align:right;", :width => "200"} Position
+      %tbody
+        - @team.each do |attendee|
+          = render :partial => 'attendance_form', :locals => { :attendee => attendee, :event => @event }
+    %p
+      = link_to "#{image_tag 'icons/small_icons/Download.png'} Team CSV (selected only)".html_safe, event_closeout_path( :format => :xls ), :style => 'text-decoration:none;'
+.clearboth
+%hr/
+= simple_form_for @event do |f|
+  = f.input :closed, :as => :hidden, :input_html => { :value => 1 }
+  = f.input :step, :as => :hidden, :input_html => { :value => 'processing_candidates' }
+  = f.submit 'Mark Weekend as Closed', :confirm => "Closing this weekend will lock attendance permanently. Are you sure you want to do this? WARNING:You are about to delete all candidates who have not been checked!"

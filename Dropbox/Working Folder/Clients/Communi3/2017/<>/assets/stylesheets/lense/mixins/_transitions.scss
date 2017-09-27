@@ -1,0 +1,4 @@
+@mixin transition($value) {
+  @include cross-browser('transition', $value);
+}
+

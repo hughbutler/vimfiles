@@ -1,0 +1,9 @@
+%nav
+  %p
+    More about #{@person.first_name}...
+  %p
+    = link_for 'Personal Information', directory_person_path(@person)
+    = link_for 'Experience History', experience_directory_person_path(@person)
+    = link_for 'Financial History', settings_positions_path
+    = link_for 'User Login', access_directory_person_path(@person)
+    = link_for 'Delete?', remove_directory_person_path(@person)

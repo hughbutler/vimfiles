@@ -1,0 +1,184 @@
+// nav#main {
+//     background: #232937;
+//
+//     @include fixed(left 0 top 0 bottom 0);
+//
+//     height: 100%;
+//     width: 200px;
+//
+//     #logo {
+//         display: block;
+//
+//         // background: transparent url('../images/firewrk-logo.png') no-repeat center center,
+//         //             #23374e gradial-gradient(50% 170%, #232937 50%, rgba(37,92,138,0.60) 100%) no-repeat center center;
+//         background-image: url("../images/firewrk-logo.png"), radial-gradient(50% 170%, #323A4D 50%, rgba(37, 92, 138, 0.6) 100%);
+//         background-repeat: no-repeat, no-repeat;
+//         background-position: center, center;
+//         height: 62px;
+//         width: 100%;
+//     }
+//
+//     ul {
+//         > li {
+//             &:first-child {
+//                 border-top: 1px solid rgba(81, 148, 195, 0.2);
+//             }
+//
+//             border-bottom: 1px solid rgba(81, 148, 195, 0.2);
+//             font-size: 12px;
+//             font-weight: normal;
+//             line-height: 32px;
+//             position: relative;
+//             text-transform: uppercase;
+//
+//             &.hasChildren:after {
+//                 $size: 6px;
+//
+//                 content: '';
+//                 border-left: 1px solid #fff;
+//                 border-bottom: 1px solid #fff;
+//
+//                 @include rotate(-45deg);
+//                 @include absolute(right 12px top 12px);
+//
+//                 height: $size;
+//                 opacity: 0.75;
+//                 width: $size;
+//             }
+//
+//             a {
+//                 color: #9F9E9E;
+//                 display: block;
+//                 padding: 2px 16px 0;
+//                 text-decoration: none;
+//
+//                 @include transition(all 0.25s ease-in-out);
+//
+//                 &:hover {
+//                     background: #2e3444;
+//                 }
+//             }
+//
+//             &:hover,
+//             &.current.hasChildren {
+//                 border-bottom: none;
+//
+//                 &.hasChildren:after {
+//                     $size: 6px;
+//
+//                     content: '';
+//                     border-left: 1px solid #fff;
+//                     border-bottom: 1px solid #fff;
+//
+//                     @include rotate(135deg);
+//                     @include absolute(right 12px top 12px);
+//
+//                     height: $size;
+//                     opacity: 0.75;
+//                     width: $size;
+//                 }
+//
+//                 ul {
+//                     max-height: 200px;
+//                     padding-bottom: 16px;
+//                 }
+//             }
+//
+//             &.current {
+//                 > a {
+//                     color: #F4F7FA;
+//                     font-weight: $bold;
+//                 }
+//             }
+//
+//             ul {
+//                 padding-bottom: 0;
+//                 max-height: 0;
+//                 overflow: hidden;
+//
+//                 @include transition(all 1s $animEasing);
+//
+//                 li {
+//                     border-top: none !important;
+//                     border-bottom: none;
+//
+//                     &:after {
+//                         display: none;
+//                     }
+//
+//                     a {
+//                         color: #848DCB;
+//                         font-size: 11px;
+//                         line-height: 12px;
+//                         padding-top: 6px;
+//                         padding-bottom: 6px;
+//
+//                         &.current {
+//                             color: #F4F7FA;
+//                             font-weight: $bold;
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
+nav#core {
+    @include fixed(top 0px left 0 bottom 0px);
+
+    background: #102F56;
+    height: 100%;
+    width: 60px;
+
+    @include desktop {
+        top: 108px;
+        width: 74px;
+    }
+
+
+    a {
+        border-top: 1px solid #546c87;
+        color: #C5DBF1;
+        display: block;
+        font-size: 10px;
+        font-weight: normal;
+        height: 68px;
+        padding: 8px 0 0;
+        text-align: center;
+        text-decoration: none;
+        width: 100%;
+
+        svg {
+            display: block;
+            height: auto;
+            margin: 0 auto;
+            width: 40px;
+
+            .icon {
+                fill: #C5DBF1;
+
+                &.stroke {
+                    fill: none;
+                    outline: #C5DBF1;
+                }
+            }
+        }
+
+        &.current {
+            color: #4182C9;
+        }
+
+        @include desktop {
+            font-size: 11px;
+            height: 68px;
+
+            svg {
+                .icon {
+                    height: 32px;
+                    width: 45px;
+                }
+            }
+        }
+    }
+}

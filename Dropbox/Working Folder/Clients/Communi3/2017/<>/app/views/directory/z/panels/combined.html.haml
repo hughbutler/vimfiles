@@ -1,0 +1,395 @@
+
+  </div>
+  <!-- End of Peronal_Info Wrapper -->
+
+  <% unless @person.candidate? %>
+    <% if !@person.candidate? && (current_user.person == @person || has_access?('super_admin') ) %>
+    <div id="user_login">
+      <div class="set">
+          <div class="display">
+
+          <% if @person.email.empty? %>
+
+            <h3>Unable to create a login without a valid email.</h3>
+            <p>Go to the contact details page and make sure a valid email has been entered and saved.</p>
+
+          <% elsif @login.nil? && User.where( email: @person.email ).present? %>
+
+            <% existing_user = User.where( email: @person.email ).try(:first) %>
+            <h3>Someone already uses this email in the system.</h3>
+            <p><%= link_to name_of(existing_user.person, true), person_path(existing_user.person) if existing_user  %> already uses this email address. Please change the email address in the Personal Information panel.</p>
+
+
+          <% elsif @login.nil? %>
+
+            <%= form_tag logins_path, :method => :post do %>
+              <h3>Allow to login?</h3>
+              <p>Enter a password to enable user to login. Password must be <b>at least 5 characters in length</b>.</p>
+
+              <%= hidden_field_tag 'person_id', @person.id -%>
+              <%= hidden_field_tag 'email', @person.email -%>
+
+              <div class="input string required">
+                <label class="string required">
+                  <abbr title="required">*</abbr> Password
+                </label>
+                <%= password_field_tag 'password' -%>
+              </div>
+              <div class="input string required">
+                <label class="string required">
+                  <abbr title="required">*</abbr> Retype Password
+                </label>
+                <%= password_field_tag 'password_confirmation' -%>
+              </div>
+              <p><%= submit_tag 'Create Login' %></p>
+            <% end %>
+
+          <% else %>
+
+            <%= form_tag "/logins/#{@login.id}", :method => :put do %>
+              <%= hidden_field_tag 'email', @person.email -%>
+              <%= hidden_field_tag 'change_password', 'true' -%>
+
+              <% if current_user.id == @login.id %>
+                <div class="warning" style="padding: 14px 0 0">
+                  <h3 style="line-height:1; border: none; margin: 8px 0 0;">Before you update your password...</h3>
+                  <p style="padding: 0; line-height: 1; margin-top: -4px;">Changing your password will automatically log you out and require you to re-login.</p>
+                </div>
+              <% end %>
+
+              <h3>Change your password.</h3>
+              <p>Enter in a new password below. Note: password must be <b>at least 5 characters in length</b>.
+                <% if !current_user? @person %>
+                  <br/>If you need to restrict this person's login access and <%= link_to 'remove login credentials', "/logins/#{@login.id}", :method => :delete, :confirm => "Are you sure you want to delete the user login? They will be unable to login after this." %>.
+                <% end %>
+              </p>
+
+              <div class="passwords">
+                <div class="input string required">
+                  <label class="string required">
+                    <abbr title="required">*</abbr> Password
+                  </label>
+                  <%= password_field_tag 'password' -%>
+                </div>
+                <div class="input string required">
+                  <label class="string required">
+                    <abbr title="required">*</abbr> Retype Password
+                  </label>
+                  <%= password_field_tag 'password_confirmation' -%>
+                </div>
+              </div>
+              <p class="pad_left"><%= submit_tag 'Change Password' %> <br/>
+            <% end %>
+
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+    <!-- End of Password Wrapper -->
+    <div id="experience">
+      <h3>Sponsorship Training</h3>
+      <div class="set">
+          <div class="display">
+          <p class="data"><span class="label">Sponsorship Training</span> up to weekend #<b><%= display @person.sponsorship_training %></b> <%= link_to_function '(update)', 'Form.contact.show(this)' if has_access? 'fourth_day_couple', false%></p>
+        </div>
+        <div class="form" style="display:none;">
+          <%= simple_form_for @person do |f| %>
+            <%= f.input :sponsorship_training, :label => 'Good through weekend #...' %>
+            <p><%= f.button :submit, 'Save Changes' %>
+           <%= link_to_function 'Cancel', 'Form.contact.hide(this)' %> </p>
+          <% end %>
+        </div>
+      </div>
+
+      <p>&nbsp;</p>
+
+      <div class="set">
+        <h3 style="margin: 0 0 -20px">Outside Experience</h3>
+        <table class="display outside_experience normal variation tablesorter">
+          <thead>
+            <tr>
+              <th>Community</th>
+              <th>Weekend</th>
+              <th>Position</th>
+            </tr>
+          </thead>
+          <% if current_user.person == @person || has_access?(['leader','super_admin']) %>
+            <tfoot>
+              <tr>
+                <td colspan="3">
+                <%= link_to_function 'Click to Update Outside Experience', 'Form.outside_experience.show(this)', :class => 'small button_link' %>
+                </td>
+              </tr>
+            </tfoot>
+          <% end %>
+          <tbody>
+            <% @person.outside_position_logs.each do |log| %>
+              <% if log.id.present? %>
+                <tr>
+                  <td><%= log.community %></td>
+                  <td><%= log.weekend %></td>
+                  <td><%= log.position_title if log.position %></td>
+                </tr>
+              <% end %>
+            <% end %>
+            <% if !@person.has_outside_logs? %>
+              <tr>
+                <td colspan="3">
+                  No outside experience has been recorded.
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <%= form_tag bulk_create_person_outside_position_logs_path( @person.id ), :method => :put, :class => 'form outside_experience' do |f| %>
+
+          <table class=" normal variation tablesorter">
+            <thead>
+              <tr>
+                <th>Community</th>
+                <th>Weekend</th>
+                <th>Position</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <td colspan="3">
+                  <%= submit_tag 'Save Changes' %> <%= link_to_function 'or cancel changes', 'Form.outside_experience.hide(this)' %>
+                </td>
+              </tr>
+            </tfoot>
+            <tbody>
+              <% @person.outside_position_logs.each do |log| %>
+                <tr>
+                  <td><%= text_field_tag "logs[][community]", log.community %></td>
+                  <td><%= text_field_tag "logs[][weekend]", log.weekend %></td>
+                  <td><%= select_tag "logs[][position]", options_for_select(community_positions, log.position_id), :include_blank => true %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+        <% end %>
+
+      <p>&nbsp;</p>
+
+        <h3 style="margin: 0 0 -20px"><%= current_user.person.community %> History</h3>
+
+        <table class="normal variation tablesorter">
+          <thead>
+            <tr>
+              <th>Gender</th>
+              <th>Position</th>
+              <th>Scheduled</th>
+              <th>Attended?</th>
+              <th>Financial Assistance</th>
+            </tr>
+          </thead>
+          <tbody id="event_attendances">
+            <% @person.event_attendees.chronological(true).each do |attendance| %>
+              <%= render 'event_attendees/profile_display', :attendance => attendance %>
+            <% end %>
+          </tbody>
+        </table>
+
+      <% if has_access? ['super_admin', 'leader'] %>
+
+        <%= link_to_function 'Add', 'Form.inside_experience.show(this)', :class => 'button_link' %>
+
+        <%= simple_form_for @person.event_attendees.new, :html => { :id => 'add_attendance_form', :style => 'display:none;' }, :remote => true do |f| %>
+          <%= f.input :person_id, :as => :hidden, :input_html => { :value => @person.id } %>
+          <%= f.input :position_id, :collection => community_positions %>
+          <%= f.input :aux_position_id, :collection => community_positions %>
+          <%= f.input :event_id, :collection => @person.community.events.gender(@person.gender) %>
+          <%= f.input :pre_weekend_status_id, :as => :hidden, :input_html => { :value => 3 } %>
+          <%= f.button :submit, 'Save' %>
+          <%= link_to_function 'Cancel', 'Form.inside_experience.hide(this)', :class => 'button_link' %>
+        <% end %>
+
+      <% end %>
+
+        </div>
+      </div>
+    <!-- End of Experience Wrapper -->
+    <% if !@person.candidate? && can_view_sensitive_data?( @person ) %>
+    <div id="financial">
+      <div class="set">
+
+        <h3>Financial History</h3>
+
+        <table class="normal variation tablesorter">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Event</th>
+              <th>Note</th>
+              <th>Type</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <td colspan=3 style="font-weight:bold;font-size:14px;text-align:right">Total</td>
+              <td style="font-weight:bold;font-size:14px;text-align:right"><%= number_to_currency( @person.payments.inject(0) { |sum, d| sum + d.amount } )%></td>
+            </tr>
+          </tfoot>
+          <tbody>
+            <% @person.payments.each do |payment| %>
+            <tr>
+              <td><%= payment.created_at.strftime('%x') %></td>
+              <td><%= truncate payment.event.title, :length => 20 %></td>
+              <td><%= payment.note %> <em style="color: #ccc;"><%= "(#{payment.token})" if payment.token.present? %></em></td>
+              <td><%= payment.payment_type.titleize %></td>
+              <td><%=number_to_currency payment.amount-%></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        </div>
+      </div>
+    <!-- End of Financial Wrapper -->
+    <% end %>
+    <% if has_access? 'super_admin', false %>
+    <div id="delete_panel">
+      <div class="set">
+
+        <h3>Warning: You are about to remove this person forever.</h3>
+        <p>If you need, you can proceed to <%=link_to 'permanently remove this person from the database', @person, :method => :delete, :confirm => 'Are you sure?' %>.</p>
+
+        </div>
+      </div>
+    <!-- End of Delete -->
+    <% end %>
+  <% end %>
+</div>
+
+
+
+
+
+
+
+<%= content_for :javascripts do %>
+  var Form = {
+
+    contact: {
+
+      show: function( link ) {
+        $set      = $(link).closest('div.set');
+        $display  = $set.find('.display');
+        $form     = $set.find('.form');
+
+        $display.fadeOut(function(){
+          $form.fadeIn('fast')
+        });
+      },
+
+      hide: function( link ) {
+        $set      = $(link).closest('div.set');
+        $display  = $set.find('.display');
+        $form     = $set.find('.form');
+
+        $form.fadeOut(function(){
+          $display.fadeIn('fast')
+        });
+      }
+
+    },
+
+
+    outside_experience: {
+
+      show: function( link ) {
+        $set      = $(link).closest('div.set');
+        $display  = $set.find('.outside_experience.display');
+        $form     = $set.find('.outside_experience.form');
+
+        $display.fadeOut(
+          200,
+          function(){
+            $form.fadeIn( 500 );
+          }
+        );
+      },
+
+      hide: function( link ) {
+        $set      = $(link).closest('div.set');
+        $display  = $set.find('.outside_experience.display');
+        $form     = $set.find('.outside_experience.form');
+
+        $form.fadeOut(
+          200,
+          function(){
+            $display.fadeIn( 500 );
+          }
+        );
+      }
+
+    },
+
+
+    inside_experience: {
+
+      show: function( link ) {
+        $(link).fadeOut(
+          200,
+          function(){
+            $(link).next().fadeIn( 500 );
+          }
+        );
+      },
+
+      hide: function( link ) {
+        $(link).closest('form').fadeOut(
+          200,
+          function(){
+            $(this).prev().fadeIn( 500 );
+          }
+        );
+      }
+
+    }
+
+  };
+$(document).ready(function() {
+  $('.member_info').tabs({ cookie:{} });
+
+  $('.js-edit-position').bind('click', function(e){
+    e.preventDefault();
+    var label = $(this),
+        form = label.next(),
+        row = label.closest('tr').find('td');
+    label.hide();
+    form.fadeIn();
+    row.addClass('highlight');
+  });
+  $('.js-cancel-edit-position').bind('click', function(e){
+    e.preventDefault();
+    var form = $(this).closest('div'),
+        label = form.prev(),
+        row = label.closest('tr').find('td');
+    form.hide();
+    label.fadeIn();
+    row.removeClass('highlight');
+  });
+  $('.js-position select').bind('change', function(e){
+    var form = $(this).closest('form'),
+        label = form.closest('div').prev(),
+        selected_value = $(this).find(':selected').text(),
+        selected_positions = form.find('option:selected');
+
+    form.submit();
+
+    selected_positions_plaintext = '';
+    selected_positions.each( function(){ if( $(this).text() != '' ) selected_positions_plaintext += $(this).text() + '<br/>'; });
+    selected_positions_plaintext = selected_positions_plaintext.substring(0, selected_positions_plaintext.length - 5);
+
+    label.html( selected_positions_plaintext ).show();
+    $('.js-cancel-edit-position').trigger('click');
+
+  });
+});
+<% end %>

@@ -1,0 +1,13 @@
+%p#notice= notice
+%p
+  %b Name:
+  = @position.name
+%p
+  %b Community:
+  = @position.community_id
+%p
+  %b Deleted:
+  = @position.deleted
+= link_to 'Edit', edit_position_path(@position)
+|
+= link_to 'Back', positions_path

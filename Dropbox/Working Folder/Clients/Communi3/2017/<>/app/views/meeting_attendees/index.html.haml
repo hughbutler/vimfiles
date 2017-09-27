@@ -1,0 +1,137 @@
+= render 'shared/weekends'
+%h1
+  = raw '<span class="tag">Completed '+@event.end_date.strftime('%x')+'</span>' if @event.is_completed?
+  Manage Meetings
+.clearboth
+%hr/
+%fieldset
+  %legend Process Team Apps
+  %p
+    To process a member's team app, begin by searching for the member below or #{link_to 'add someone new to database', new_person_path}.
+  = form_tag nil, :id => 'member_search' do
+    %label Find a member
+    = text_field_tag 'person_name', '', :id => 'person_name', :data => @event.gender
+    = hidden_field_tag 'person_id', '', :id => 'new_person_id'
+    = submit_tag 'click to add', :class => 'button_link'
+  #mem_find
+    %hr/
+    %h2#mem_name
+    = simple_form_for TeamApp.new, :html => {:id => 'quick_team_app'} do |f|
+      = f.input :person_id, :as => :hidden, :input_html => { :id => 'mem_id' }
+      = f.input :event_id, :as => :hidden, :input_html => { :value => @event.id }
+      %hr/
+      .field
+        Are you willing and
+        %b able to attend
+        all team meetings? If so, please check the box below.
+        %br/
+        = f.input :will_attend_meetings, :label => 'Yes, I will attend.'
+      %hr/
+      .field
+        Are you currently
+        %b living a lifestyle
+        of biblical leadership? If so, please check the box below.
+        %br/
+        = f.input :living_lifestyle, :label => 'Yes, I am.'
+      %hr/
+      .actions
+        = f.submit 'Submit and Enroll'
+%hr.clear/
+%fieldset.alt
+  %legend Meeting Attendance
+  %p#loader-indicator{:style => "text-align: center;"}
+    = image_tag 'loader.gif'
+    = succeed "Loading" do
+      %br/
+  %table#loader-target.normal.tablesorter{:style => "display:none"}
+    %thead
+      %tr
+        %th.header
+        %th.header Added
+        %th.header Name
+        %th.header Forms
+        %th.header Position
+        %th.header TFP
+        %th.header Donations
+        %th.header FAP
+        %th.header TOT
+        %th.header
+    %tbody
+      - if @event_attendees.present?
+        - @event_attendees.each do |attendee|
+          %tr{:class => "person_row #{"paid" if attendee.person.fully_paid? (@event)}"}
+            %td
+              .small_attendance
+                %span{:class => "meeting one #{"attended" if attended?(0, attendee.person_id)}"} 1
+                %span{:class => "meeting two #{"attended" if attended?(1, attendee.person_id)}"} 2
+                %span{:class => "meeting three #{"attended" if attended?(2, attendee.person_id)}"} 3
+                %span{:class => "meeting four #{"attended" if attended?(3, attendee.person_id)}"} 4
+            %td{:style => "color: #aaa; font-size: 9px;"}= attendee.created_at.to_s(:short)
+            %td= name_of attendee.person
+            %td
+              - if attendee.fa_needed and !attendee.fa_granted then
+                = image_tag('fa_requested.png')
+              - elsif attendee.fa_granted then
+                = image_tag('fa_granted.png')
+            %td
+              %span.position-plaintext.js-positions= attendee.positions
+            %td{:style => "position:relative;"}
+              %span.team_total.tooltip{:title => "#{format_history(attendee.person.payments.team_fees.scope_event(@event.id))}"}= number_to_currency attendee.person.total_fees_paid(@event.id)
+            %td{:style => "position:relative;"}
+              %span.team_donations.tooltip{:title => "#{format_history(attendee.person.payments.donations.scope_event(@event.id))}"}= number_to_currency attendee.person.total_donations(@event.id)
+            %td{:style => "position:relative;"}
+              %span.fa_total= attendee.fa_granted ? number_to_currency(attendee.fa_amount_granted) : '$0.00'
+            %td{:style => "position:relative;"}
+              %span.total= number_to_currency attendee.person.total_payments(@event.id)
+            %td{:style => "position:relative; min-width:30px;"}
+              %span.toggle_button
+              = image_tag '/images/fieldset_pointer.png', :class => 'fieldset_pointer'
+              %fieldset.person_details.popup{:id => "person_#{attendee.person.id}_details"}
+                %h2{:style => "margin: 0 0 5px;"}= name_of attendee.person
+                - if attendee.person.address.present?
+                  %p= attendee.person.address.html_safe
+                %div
+                  %hr/
+                  %h3 Update Attendance
+                  %p Click on the buttons to mark attendance.
+                  %ul.inline
+                    %li= render :partial => 'form', :locals => {:person => attendee.person, :meeting => @event.meetings[0] }
+                    %li= render :partial => 'form', :locals => {:person => attendee.person, :meeting => @event.meetings[1] }
+                    %li= render :partial => 'form', :locals => {:person => attendee.person, :meeting => @event.meetings[2] }
+                    %li= render :partial => 'form', :locals => {:person => attendee.person, :meeting => @event.meetings[3] }
+                %div
+                  %hr/
+                  %h3 Weekend Position(s)
+                  = simple_form_for [@event, attendee] do |f|
+                    = f.association :position, :as => :select, :collection => @positions, :label => 'Primary Position'
+                    = f.association :aux_position, :as => :select, :collection => @positions, :label => 'Add\'l Position (Optional)'
+                %div
+                  %hr/
+                  %h3 Enter Payment
+                  %p Add a payment.
+                  = simple_form_for Payment.new, :html => {:id => 'add_payment', :class => 'payment ajax'} do |f|
+                    .notification.success{:style => "position:absolute;bottom:66px;right: 10px; padding:0;display:none;"}
+                    = f.input :community_id, :as => :hidden, :input_html => { :value => community_id }
+                    = f.input :person_id, :as => :hidden, :input_html => { :value => attendee.person.id }
+                    = f.input :event_id, :as => :hidden, :input_html => { :value => @event.id }
+                    - f.input :amount, :as => :string, :label => false, :placeholder => '0', :input_html => { :value => attendee.remaining_fees, :class => 'amount', 'data-remaining' => remaining_fees( attendee.person, @event ) }
+                    $#{f.input :amount, :as => :string, :label => false, :placeholder => '0', :input_html => { :value => 0, :class => 'amount', 'data-remaining' => remaining_fees( attendee.person, @event ) }} applied to #{f.input :payment_type, :collection => ['team fees', 'donation'], :include_blank => false, :label => false, :input_html => { :class => 'payment_type' }}
+                    \#{f.submit 'Add'}
+                    %br/
+                    = f.input :note, :as => :string, :placeholder => 'enter a note...', :label => false, :input_html => { :class => 'note', :style => 'display:block; width:225px; margin: 10px 0 0; position: absolute; bottom: 7px; left: 10px;' }
+      - else
+        No attendees
+  = paginate @event_attendees
+- content_for :javascripts do
+  $(function(){
+  $('#loader-indicator').hide();
+  $('#loader-target').slideDown();
+  
+  $(document).keypress(function(e) {
+  if(e.which == 13) {
+  $('tr.person_row.selected').removeClass('selected');
+  $('.person_details.popup, .fieldset_pointer').hide();
+  }
+  });
+  
+  });

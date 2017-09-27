@@ -1,0 +1,91 @@
+%header
+  %h1
+    = link_to 'People Directory'
+    = svg('breadcrumb-arrow')
+    = @person.to_s
+
+-# = render 'shared/members'
+-# <p class="data" <%= raw 'style="background:#ffe1c2;"' if @person.is_clergy %> ><span class="label">Is clergy?</span> <%= @person.is_clergy ? 'Yes' : 'No' %></p>
+
+%p
+  -# = @person.is_married ? "(Married to #{show_spouse_of(@person)}".html_safe : ( @person.gender == 'male' ? 'Single Guy' : 'Single Woman' )
+
+  -# - if @person.email.present?
+  -#   = link_to @person.email, "#{@person.email}", class: 'launch_mailer', to: @person.email, from: @person.to_s, mail_template_key: 'false'
+
+- if @person.is_scheduled_for_next_weekend? && attendance.position.present?
+  %p.person_note
+    Currently scheduled for #{ attendance.event.title }
+    as #{attendance.position.title}
+
+- if @person.candidate?
+  %p.person_note
+    Currently nominated as candidate
+    - if @person.birth_event.present?
+      for #{@person.birth_event.title}
+    - else
+      but not assigned to any weekend.
+
+.member_info
+  -# - if !@person.candidate?
+    <ul class="member_info_tabs">
+      <li><a href="#personal_info">Personal Information</a></li>
+      <% if current_user.person == @person || has_access?('super_admin') %>
+        <li style="<%= "display:none" if @person.candidate? %>"><a href="#user_login">User Login</a></li>
+      <% end %>
+      <li style="<%= "display:none" if @person.candidate? %>"><a href="#experience">Experience/History</a></li>
+      <% if can_view_sensitive_data? @person %>
+        <li style="<%= "display:none" if @person.candidate? %>"><a href="#financial">Financial History</a></li>
+      <% end %>
+      <% if has_access? 'super_admin', false %>
+        <li style="<%= "display:none" if @person.candidate? %>"><a href="#delete_panel">Delete Person</a></li>
+      <% end %>
+    </ul>
+
+  .display
+    - if @person.candidate?
+      %h2 Candidate Details
+      %ul
+        = display 'Who\'s Paying', @person.who_pays
+        = display 'Paid in full', @person.has_paid, 'No', 'Yes'
+        = display 'Name on tag', @person.name_on_tag
+        = display 'Wants to attend?', @person, :wants_to_attend, 'No', 'Yes'
+        = display 'Can attend last minute?', @person.attend_last_minute, 'No', 'Yes'
+        = display 'Special needs', @person.notes
+        = render 'custom_fields', tag: 'nominee'
+
+        -# <p><%= link_to_function 'Edit contact details', 'Form.contact.show(this)' %></p>
+
+    %h2 General
+    %ul
+
+      = display 'Date Added to Communi3', format_date(@person.created_at, :long)
+      = display 'Full name', @person.to_s
+      = display 'Gender', @person.gender
+      = display 'Marital Status', @person.is_married, 'Single', "Married to #{show_spouse_of( @person )}"
+      = display 'Birthday', @person.try(:birthdate), nil, "#{age @person.try(:birthdate)} years old"
+    %h2 Contact
+    %ul
+      = display 'Email', @person.email, nil, link_to(@person.try(:email), @person.try(:email), class: 'launch_mailer', to: @person.try(:email), :from => name_of(current_user.person, true), mail_template_key: 'false')
+      = display 'Main Phone', number_to_phone(@person.main_phone)
+      = display 'Mobile Phone', number_to_phone(@person.mobile_phone)
+      = display 'Address', @person.address
+
+    %h2 Emergency
+    %ul
+      = display 'Emergency Contact', @person.emergency_contact_name
+      = display 'Emergency Phone', @person.emergency_contact_phone
+
+    %h2 Spiritual Details
+    %ul
+      = display 'Is clergy?', @person.is_clergy, 'No', 'Yes'
+      = display 'Home church', @person.church_name
+      = display 'Sponsor', @person.parent, nil, "link_to( @person.parent.to_s, [:directory, @person.parent] )"
+
+    %h2 Miscellaneous
+    %ul
+      = display 'Who is paying', @person.who_pays
+      = display 'Shirt size', @person.shirt_size
+      = render 'custom_fields', tag: 'member'
+
+

@@ -1,0 +1,40 @@
+Dashboard
+-# - content_for :header, 'Dashboard'
+-# %ul.dash{:style => "margin:15px 0 0"}
+-#   %li.fade_hover.tooltip{:title => "Sponsorship Form"}
+-#     %a{:href => new_nomination_path}
+-#       %img{:alt => "", :src => "/images/icons/dashboard/44.png"}/
+-#       %span Sponsor Form
+-#   %li.fade_hover.tooltip{:title => "Submit a Team Application"}
+-#     %a{:href => new_team_app_path}
+-#       %img{:alt => "", :src => "/images/icons/dashboard/2.png"}/
+-#       %span Team App
+-#   %li.fade_hover.tooltip{:title => "Edit my information"}
+-#     %a{:href => "#{person_path current_user.person_id}"}
+-#       %img{:alt => "", :src => "/images/icons/dashboard/47.png"}/
+-#       %span My Profile
+-#   - if attendance = current_user.person.is_scheduled_for_next_weekend?
+-#     - if !current_user.person.fully_paid? (attendance.event)
+-#       %li.fade_hover.tooltip{:title => "Pay team fees online"}
+-#         %a{:href => "#{new_payment_path(:redirect_to => request.url)}"}
+-#           %img{:alt => "", :src => "/images/icons/dashboard/88.png"}/
+-#           %span Pay Online
+-# - if @nominations.present? || @candidates.present?
+-#   %hr/
+-#   %fieldset{:style => "width:250px"}
+-#     %legend Your Candidates
+-#     %table.normal.tablesorter{:style => "width:248px"}
+-#       %thead
+-#         %tr
+-#           %th Name
+-#           %th Status
+-#       %tbody
+-#         - @nominations.each do |nomination|
+-#           %tr
+-#             %td= format_names nomination,'<br/>', false
+-#             %td{:style => "padding: 10px;"} Awaiting Review
+-#         - @candidates.each do |candidate|
+-#           %tr
+-#             %td
+-#               = candidate.first_name+' '+candidate.last_name
+-#             %td{:style => "padding: 10px;"}= candidate.event_attendees.last.try(:pre_weekend_status).try(:title) || 'none'

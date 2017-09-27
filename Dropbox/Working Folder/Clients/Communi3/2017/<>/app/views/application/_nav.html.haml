@@ -1,0 +1,29 @@
+%nav#core
+  - if current_user
+    = link_to svg('icon-home') + 'Home', root_url
+    = link_to svg('icon-directory') + 'People', directory_people_path
+    = link_to svg('icon-calendar') + 'Weekends', weekends_url
+    = link_to svg('icon-profile') + 'Me', root_url
+    = link_to svg('icon-reports') + 'Reports', root_url
+    = link_to svg('icon-settings'), settings_community_path
+
+-# %nav
+  %ul
+    %li
+      = link_to 'Event Requests', admin_event_requests_path
+    %li
+      = link_to 'Franchises', admin_franchises_path
+    %li
+      = link_to 'Franchise Inquiries', admin_franchise_inquiries_path
+    %li
+      = link_to 'Reports', admin_transaction_report_path
+    %li
+      = link_to 'Logout', destroy_user_session_path, method: :delete
+  -# %a
+  -#   Welcome, <b>#{current_company_admin.first_name}</b>!
+  -#
+  -# %ul
+  -#   %li
+  -#     = link_to 'My Profile', roost_edit_profile_path
+  -#   %li
+  -#     = link_to 'Logout', destroy_company_admin_session_path, method: :delete

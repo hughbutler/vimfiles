@@ -1,0 +1,346 @@
+/*
+
+Table of contents:
+
+[00] Form Base Styles
+[01] Inputs: Input, Textarea, Select, Radio, Checkbox, etc
+[02] Customized Inputs
+[03] Layout: Labels, Labels & Fieldset
+..
+..
+[Last] Error-Handling
+
+------------------------------------------------- */
+
+/* [00] Forms
+--------------------------------------------------------------------------------------- //// */
+::-webkit-input-placeholder,
+:-ms-input-placeholder,
+::-moz-placeholder,
+:-moz-placeholder {
+    color: $colorPlaceholder;
+    opacity: 1;
+}
+
+input[type=file],
+input[type=text],
+input[type=email],
+input[type=number],
+input[type=password],
+textarea,
+select {
+    @include transition(all 0.3s ease);
+
+    outline: none;
+
+    &:focus {}
+}
+
+/* [01] Inputs: Input, Textarea, Select, Radio, Checkbox, etc
+--------------------------------------------------------------------------------------- //// */
+
+input[type=text],
+input[type=email],
+input[type=number],
+input[type=password],
+select {
+    // border-radius: 2px;
+    background: #FAFDFF;
+    border: 1px solid #C5DBF1;
+
+    @include box-shadow("inset 0 1px 3px 0 rgba(0,0,0,0.24)");
+
+    color: #102F56;
+    display: block;
+    font-size: 14px;
+    height: 32px;
+    line-height: 32px;
+    margin: 0;
+    padding: 0 10px;
+    position: relative;
+    width: 100%;
+
+    &:focus {
+        box-shadow: 0 0 10px rgba(81, 203, 238, 1);
+        border: 1px solid rgba(81, 203, 238, 1);
+        z-index: 100;
+    }
+}
+
+textarea {
+    background: #FFFFFF;
+    border: 1px solid #B9B9B9;
+    color: #212121;
+    display: block;
+    font-size: 14px;
+    line-height: 14px;
+    min-height: 100px;
+    padding: 12px 12px 0;
+    width: 100%;
+    border-radius: 2px;
+    border: none;
+    font-size: 16px;
+
+    @include transition(all 0.3s ease);
+
+    outline: none;
+    padding: 0 12px;
+
+    &:focus {
+        box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+        border: 1px solid rgba(81, 203, 238, 1);
+    }
+}
+
+input[type=file] {
+    padding: 0;
+}
+
+/* [02] Cusotmized Inputs
+--------------------------------------------------------------------------------------- //// */
+
+.date {
+    select {
+        border-radius: 2px;
+        display: inline-block;
+        font-size: 16px;
+        height: 40px;
+        margin: 0;
+
+        @include transition(all 0.3s ease);
+
+        outline: none;
+        padding: 0 12px;
+        width: auto;
+
+        &:focus {
+            box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+            border: 1px solid rgba(81, 203, 238, 1);
+        }
+    }
+}
+
+.formSelect {
+    background: #fff asset-url("selectArrow.png") no-repeat right center;
+    background-size: 20px 8px;
+
+    // border: none;
+    border-radius: 2px;
+    display: block;
+    font-size: 12px;
+    height: 32px;
+    line-height: 20px;
+    overflow: hidden;
+    padding: 4px 12px;
+    width: 100%;
+
+    select {
+        background: transparent;
+        width: 100%;
+        padding: 0 20px 0 0;
+        font-size: 12px;
+        line-height: 24px;
+        border: 0;
+        border-radius: 0;
+        -webkit-appearance: none;
+
+        &:focus {
+            box-shadow: none !important;
+            border: none !important;
+        }
+    }
+
+    &.medium {
+        border-radius: 2px;
+        height: 40px;
+        margin-top: 0;
+
+        select {
+            height: 32px;
+        }
+    }
+
+    &.onWhite {}
+
+    &.defDate {
+        select {
+            float: left;
+            padding: 0 20px 0 0;
+            width: auto;
+        }
+    }
+}
+
+/* [03] Layout: Labels, Fieldsets, Rows
+--------------------------------------------------------------------------------------- //// */
+label {
+    color: #102F56;
+    display: block;
+    font-weight: $normal;
+    font-size: 13px;
+    line-height: 12px;
+    margin: 0px 0 4px;
+    position: relative;
+    z-index: 101;
+}
+
+input[type=checkbox] {
+    + label {
+        display: inline;
+    }
+}
+
+.actions {
+    padding-top: 2em;
+
+    @include clearfix;
+
+    &.column,
+    &.columns {
+        margin-top: 0;
+        text-align: right;
+    }
+
+    .smallLinks {
+        float: left;
+
+        a {
+            padding: 0 4px;
+        }
+    }
+}
+
+a.submit.button,
+.actions input[type~=button],
+.actions input[type~=submit],
+input.button {
+    // background-image: linear-gradient(-180deg, #949DDB 0%, #7F88CA 100%);
+    // @include gradient(#949DDB, #7F88CA);
+    // @include box-shadow("inset 0 -5px 0 #727CB4", "0 2px 6px rgba(0, 0, 0, .2)");
+
+    // border-radius: 2px;
+    // border: none;
+    // font-size: 14px;
+    // font-weight: $normal;
+    // height: 52px;
+    // line-height: 36px;
+    // float: right;
+    // position: relative;
+    // z-index: 1;
+
+    &:active {
+        $vertOffset: 5px;
+
+        top: $vertOffset;
+
+        @include gradient(#7F88CA, #949DDB);
+    }
+
+    &#backButton {
+        float: left;
+    }
+}
+
+fieldset {
+    display: block;
+    margin: 36px 0 0;
+    padding: 0;
+    position: relative;
+
+    @include clearfix;
+
+    legend {
+        color: #102F56;
+        font-size: 16px;
+        font-weight: $bold;
+
+        // line-height: 12px;
+        line-height: 1em;
+        margin-bottom: .5em;
+        margin: 8px 0;
+
+        > h2 {
+            margin-bottom: 16px;
+        }
+    }
+
+    .input.row {
+        .columns {
+            padding: 16px;
+
+            label {}
+
+            input[type=text],
+            input[type=email],
+            input[type=number],
+            input[type=password],
+            select {}
+
+            &:first-child {
+                padding-left: 0;
+
+                input {}
+            }
+        }
+
+        + .input.row {
+            .columns {
+                input[type=text],
+                input[type=email],
+                input[type=number],
+                input[type=password],
+                select {}
+            }
+        }
+    }
+}
+
+/* [01] Grid
+--------------------------------------------------------------------------------------- //// */
+
+/* [01] Input Elements
+--------------------------------------------------------------------------------------- //// */
+
+.innerBox {
+    input[type='text'],
+    input[type='email'],
+    input[type='password'] {
+        font-size: 16px;
+        height: 40px;
+        margin-top: 0;
+    }
+}
+
+/* [LAST] Error-Handling
+--------------------------------------------------------------------------------------- //// */
+
+form.has_errors .field_with_errors {
+    textarea,
+    select,
+    input {
+        border: 1px solid #c3312b;
+        box-shadow: 0 0 8px #c3312b;
+    }
+}
+
+.inner.alert {
+    border: 2px solid #FD7777;
+    border-radius: 4px;
+    padding: 8px 20px;
+
+    h3 {
+        margin: 0;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    ul {
+        margin: 20px 0 0;
+    }
+
+    b {
+        color: #011;
+    }
+}

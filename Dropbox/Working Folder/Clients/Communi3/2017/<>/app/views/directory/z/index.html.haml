@@ -1,0 +1,37 @@
+-# = render 'shared/members'
+- letters = %w[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]
+%p
+  %b Filter by Last Name:
+  - letters.each do |letter|
+    %span{:style => "color:#ccc"} |
+    = link_to letter, directory_people_path('member', letter.downcase), :style => "text-decoration: none"
+
+%table.normal.tablesorter
+  %thead
+    %tr
+      %th Name
+      %th Gender
+      %th Created
+      %th Last Attendance
+      %th ST
+      %th Contact
+      %th
+  %tbody
+    - @people.each do |person|
+      %tr{:class => "#{'expired_training' if person.sponsorship_training.to_i > 30}"}
+        %td
+          = link_to "#{person.last_name}, #{person.first_name}", [:directory, person]
+        %td
+          = person.gender
+        %td
+          = person.created_at.to_s(:short)
+        %td
+          = person.last_attendance
+        %td
+          = person.sponsorship_training || '-'
+        %td
+          -# = link_to person.email, person.email, :class => 'launch_mailer', :to => person.email, :from => name_of(current_user.person, true), :mail_template_key => 'false' if person.email.present?
+          %br/
+          = raw contact_summary(person)
+        %td
+          = link_to 'view', [:directory, person], :class => 'button_link small'

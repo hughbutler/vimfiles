@@ -1,0 +1,84 @@
+/*
+
+All menuing components will be here
+
+[01] Clickable Menu
+
+------------------------------------------------- */
+
+$buttonBackgroundColor: #4182C9;
+$buttonBorder: none;
+$buttonHighlightBackgroundColor: #4182C9;
+$buttonFontColor: #fff;
+
+$secondaryButtonBackgroundColor: red;
+$secondaryButtonBorder: none;
+$secondaryButtonHighlightBackgroundColor: red;
+$secondaryButtonFontColor: red;
+
+/*------------------------------------------------- */
+
+/* [01] Table
+--------------------------------------------------------------------------------------- //// */
+
+table {
+    margin-top: 40px;
+    width: 100%;
+
+    th, td {
+        padding: 2px 8px;
+    }
+
+    tr {
+        th,
+        td {
+            border: 1px solid #D7E2EE;
+            border-collapse: collapse;
+
+            /* PROSPECT’S NAME: */
+
+            &:first-child {}
+        }
+
+        &:nth-child(even) {
+            td {
+                background: #FBF9F9;
+            }
+        }
+    }
+
+    thead {
+        border: none;
+
+        th {
+            border: none;
+            color: #A2A4AE;
+            font-size: 12px;
+            font-weight: $bold;
+            line-height: 12px;
+            padding-bottom: 8px;
+            text-align: left;
+            text-transform: uppercase;
+        }
+    }
+
+    tbody {
+        tr {
+            &[data-href] {
+                cursor: pointer;
+
+                &:hover td {
+                    background: #EAF2FA;
+                }
+            }
+
+            td {
+                vertical-align: middle;
+
+                &.avatar {
+                    width: 80px;
+                }
+            }
+        }
+    }
+}

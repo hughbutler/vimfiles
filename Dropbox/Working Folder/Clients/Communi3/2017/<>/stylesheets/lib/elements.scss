@@ -1,0 +1,138 @@
+@import "compass";
+@import "mixins";
+@import "colors";
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+
+  body {
+    background: #fff;
+    color: #777;
+    font-family: $sansFamily;
+    font-weight: 300;
+    height: 100%;
+
+    @include transition(.5s ease-in-out);
+  }
+}
+
+table {
+  width: 100%;
+
+  th, td {
+    padding: 8px;
+  }
+
+  tr {
+    th,
+    td {
+
+      &:first-child { border-left: none; }
+    }
+
+    &:nth-child(even) {
+      td {
+      }
+    }
+  }
+
+  thead {
+    th {
+      font-size: 12px;
+      font-weight: bold;
+      text-align: left;
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        vertical-align: middle;
+
+        &.avatar {
+          width: 80px;
+        }
+      }
+    }
+  }
+
+}
+
+fieldset {
+  display: block;
+  margin: 16px 0;
+  padding: 0;
+  position: relative;
+
+  legend {
+    display: block;
+    font-weight: bold;
+    margin: 8px 0;
+  }
+
+  /* Legend */
+  > h2 {
+    margin-bottom: 16px;
+  }
+
+}
+
+.alertBar,
+.noticeBar {
+  @include fixed(top 0 right 0 left 0);
+  background: rgba(151, 214, 104, 0.95);
+  color: white;
+  // height: 0;
+  // line-height: 0;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -.1px;
+  margin: 0;
+  // opacity: 0;
+  padding: 4px;
+  text-align: center;
+  width: 100%;
+  z-index: 1000;
+
+  &.alertBar {
+    background: $red;
+  }
+}
+
+.button {
+  @include button_styles();
+}
+
+ul {
+
+  .data-row {
+    color: #202331;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 4px 0 4px 200px;
+    position: relative;
+
+    &:nth-child(odd) {
+      background: #FBF9F9;
+    }
+
+    span {
+      color: #8D929F;
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      @include absolute(left 0 top 4px);
+      padding-left: 8px;
+      width: 200px;
+    }
+  }
+}

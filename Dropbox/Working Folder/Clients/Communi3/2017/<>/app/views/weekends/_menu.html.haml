@@ -1,0 +1,9 @@
+- content_for :header, 'Weekends'
+- content_for :nav do
+  %ul#nav
+    %li
+    = current_class_for 'top_upcoming_weekends'
+    \&gt;#{link_to 'Current', events_path}
+  %li
+  = current_class_for 'top_past_weekends'
+  \&gt;#{link_to 'Previous Weekends', archived_events_path}

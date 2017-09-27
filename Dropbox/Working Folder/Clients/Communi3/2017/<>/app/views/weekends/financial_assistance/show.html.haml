@@ -1,0 +1,22 @@
+%p#notice= notice
+%p
+  %b Person:
+  = @event_attendee.person_id
+%p
+  %b Position:
+  = @event_attendee.position_id
+%p
+  %b Event:
+  = @event_attendee.event_id
+%p
+  %b Attended:
+  = @event_attendee.attended
+%p
+  %b Fa needed:
+  = @event_attendee.fa_needed
+%p
+  %b Fa granted:
+  = @event_attendee.fa_granted
+= link_to 'Edit', edit_event_attendee_path(@event_attendee)
+|
+= link_to 'Back', event_attendees_path

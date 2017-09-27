@@ -1,0 +1,60 @@
+- content_for :aside do
+  = render file: 'aside/weekends/meetings/index'
+
+%header
+  %h1
+    -# - if @weekend.is_completed?
+    -#   %span.tag Completed #{@weekend.end_date.strftime('%x')}
+
+    = link_to @weekend.to_s, weekends_url
+    = svg('breadcrumb-arrow')
+    Financial Assistance
+
+%hr/
+%fieldset
+  %legend
+    Team (#{@team.count})
+
+  %table#loader-target.normal.tablesorter
+    %thead
+      %tr
+        %th Name
+        %th{:width => "250"} Position
+        %th FA Requested?
+        %th FA Granted?
+        %th
+    %tbody
+      - @team.each do |attendee|
+        -# = render :partial => 'attender_form', :locals => { :attendee => attendee, :event => @event }
+        = form_tag attendee_for_weekend_path(@weekend, attendee) , :html => {:class => 'formlet'} do
+
+          %tr
+            %td
+              %b= link_to attendee.person.last_name+', '+attendee.person.first_name, directory_person_path(attendee.person)
+              - if attendee.person.main_phone.present?
+                %br/
+                = attendee.person.main_phone
+              %br/
+              = link_to truncate(attendee.person.email, :length => 20), "mailto:#{attendee.person.email}"
+            %td
+              = select_tag 'event_attendee[position_id]', options_for_select(current_community.positions.select('id, title').order('title'), attendee.position_id)
+              = select_tag 'event_attendee[aux_position]', options_for_select(current_community.positions.select('id, title').order('title'), attendee.aux_position)
+              -# = f.association :position, :as => :select, :collection => Position.select('id, title').community(community_id).order('title'), :label => false, :prompt => '-- primary --'
+              -# = f.association :aux_position, :as => :select, :collection => Position.select('id, title').community(community_id).order('title'), :label => false, :prompt => '-- optional add\'l --'
+            %td
+              %label
+                = check_box_tag 'event_attendee[fa_needed]'
+                Requested
+              %label $
+              %br
+              = text_field_tag 'event_attendee[fa_amount_needed]'
+            %td
+              %label
+                = check_box_tag 'event_attendee[fa_requested]'
+                Accepted
+              %label $
+              %br
+              = text_field_tag 'event_attendee[fa_amount_requested]'
+            -# %td
+            -#   = f.button :submit, 'Save Changes', :class => 'button_link small'
+              -# = link_to 'Delete', event_event_attendee_path(attendee.event_id, attendee), :confirm => 'WARNING! You are about to remove '+name_of(attendee.person, true)+' from the weekend. Are you sure you want to do this?', :method => :delete, :class => 'button_link small'

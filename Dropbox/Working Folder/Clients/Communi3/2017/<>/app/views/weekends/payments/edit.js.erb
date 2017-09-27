@@ -1,0 +1,65 @@
+var partial = "<%= j(render('edit')) -%>";
+var body = document.querySelector('body');
+var popup = body.querySelector('.popup.module');
+var div;
+
+div = document.createElement('div');
+div.className = 'popup module';
+
+if (popup) {
+    div.innerHTML = partial;
+    body.replaceChild(popup, div);
+}
+else {
+    div.innerHTML = partial;
+    body.appendChild(div);
+}
+
+var outerPopup = document.querySelector('div.popup.module');
+outerPopup.onclick = function (e) {
+    e.preventDefault();
+    body.removeChild(div);
+}
+
+var innerPopup = outerPopup.querySelector('div.innerPopup');
+innerPopup.onclick = function (e) {
+    e.stopPropagation();
+}
+
+var links = innerPopup.querySelectorAll('a.remote');
+for( var i = 0; i < links.length; i++ ) {
+    let link = links[i];
+    link.onclick = function (e) {
+        e.preventDefault();
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', this.getAttribute('href'));
+        xhr.send(null);
+        xhr.onreadystatechange = function () {
+            var DONE = 4;
+            var OK = 200;
+            if (xhr.readyState === DONE) {
+                if (xhr.status === OK) {
+                  let json = JSON.parse(xhr.responseText);
+                  let matches = document.querySelectorAll('*[data-meeting-id="'+json['meeting_id']+'"][data-person-id="'+json['person_id']+'"]');
+
+                  for(var i=0; i<matches.length; i++) {
+                      let match = matches[i].querySelector('.icon')
+                      if (json['attended']) {
+                          match.classList.add('checked');
+                      }
+                      else {
+                          match.classList.remove('checked');
+                      }
+                  };
+                } else {
+                  console.log('Error: ' + xhr.status); // An error occurred during the request.
+                }
+            }
+        };
+
+        return false;
+    }
+}
+
+window.init();

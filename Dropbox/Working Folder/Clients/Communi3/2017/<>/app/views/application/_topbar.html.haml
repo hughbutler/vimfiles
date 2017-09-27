@@ -1,0 +1,12 @@
+#topbar
+  - if current_user
+    %h1
+      = current_community.to_s
+      %em 1,392 lives changed
+
+    %aside
+      - if next_weekend.present?
+        Did you know the next weekend is
+        = link_to "#{format_date(next_weekend.start_date, :short)} - #{format_date(next_weekend.end_date, :short)}",
+          root_url
+

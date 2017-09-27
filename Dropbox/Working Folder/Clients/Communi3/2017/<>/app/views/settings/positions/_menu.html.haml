@@ -1,0 +1,9 @@
+- content_for :header, 'Positions'
+- content_for :nav do
+  %ul#nav
+    %li
+    = current_class_for 'top_new_position'
+    \&gt;#{link_to 'ADD POSITION', new_position_path if has_access? 'super_admin'}
+  %li
+  = current_class_for 'top_position'
+  \&gt;#{link_to 'LIST ALL', positions_path}
