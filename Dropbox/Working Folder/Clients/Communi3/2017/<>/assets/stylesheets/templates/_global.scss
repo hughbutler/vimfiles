@@ -112,6 +112,14 @@ html {
                         }
                     }
                 }
+
+                .row {
+                    min-width: 0;
+
+                    .columns:last-child {
+                        padding-right: 0;
+                    }
+                }
             }
 
             @include desktop {

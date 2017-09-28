@@ -4,7 +4,7 @@ class Weekends::MeetingsController < Weekends::CommonController
         @weekend = Weekend.where('weekends.id = ?', params[:weekend_id]).includes( meetings: :attendees ).take
         @meetings = @weekend.meetings.all
 
-        @attendees = @weekend.attendees.team.includes(:position, person: :payments).order('people.last_name ASC, people.first_name ASC').page(params[:page]).per(50)
+        @attendees = @weekend.attendees.team.includes(:position, person: :payments).order('people.last_name ASC, people.first_name ASC').page(params[:page]).per(100)
         # @event_attendees = EventAttendee.by_event(params[:event_id]).team.includes(:position, nil).includes(:person => :payments).order('people.last_name ASC, people.first_name ASC').page(params[:page]).per(50)
         # @meeting_attendee = MeetingAttendee.new
         @positions = current_community.positions.order('title').collect{ |e| [e.title, e.id] }

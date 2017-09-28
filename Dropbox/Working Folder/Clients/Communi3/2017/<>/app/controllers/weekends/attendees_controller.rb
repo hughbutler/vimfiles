@@ -22,15 +22,8 @@ class Weekends::AttendeesController < Weekends::CommonController
         end
     end
 
-    # GET /event_attendees/new
-    # GET /event_attendees/new.xml
     def new
-        @event_attendee = EventAttendee.new
-
-        respond_to do |format|
-            format.html # new.html.erb
-            format.xml  { render :xml => @event_attendee }
-        end
+        @attendee = @weekend.attendees.new(person_id: params[:person_id])
     end
 
     def edit

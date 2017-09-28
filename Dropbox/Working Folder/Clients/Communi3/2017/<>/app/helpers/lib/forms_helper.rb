@@ -184,8 +184,8 @@ module Lib::FormsHelper
         return content_tag(:div, "#{lbl}<br/>#{input}".html_safe)
     end
 
-    def submit_button label = 'Save'
-        a = content_tag(:a, label, "data-module": "submit-button", class: "submit button")
+    def submit_button label = 'Save', css_classes = ''
+        a = content_tag(:a, label, "data-module": "submit-button", class: "submit button #{css_classes}")
         content_tag(:div, a, class: 'actions')
     end
 

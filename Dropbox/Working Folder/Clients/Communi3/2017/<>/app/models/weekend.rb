@@ -30,7 +30,7 @@ class Weekend < ApplicationRecord
     has_many                    :attendees, class_name: 'Weekend::Attendee', dependent: :destroy
     has_many                    :people, through: :attendees
     has_many                    :meetings, class_name: 'Weekend::Meeting', dependent: :destroy
-    has_many                    :team_apps,         :dependent => :destroy
+    has_many                    :team_apps, class_name: 'Weekend::TeamApp', dependent: :destroy
     has_many                    :payments,          :dependent => :destroy
     has_many                    :general_funds, class_name: 'Weekend::GeneralFund', dependent: :destroy
 

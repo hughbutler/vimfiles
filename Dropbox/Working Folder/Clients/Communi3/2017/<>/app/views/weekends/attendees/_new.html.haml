@@ -1,0 +1,30 @@
+.innerPopup
+  = form_for @weekend.team_apps.new do |f|
+    = f.hidden_field :person_id, value: 'lkjs'
+
+    %h1{:style => "margin: 0 0 5px;"}= name_of @attendee.person
+    = submit_button 'Add To Weekend', 'topRight'
+    -# - if attendee.person.address.present?
+      %p= attendee.person.address.html_safe
+    %hr/
+    .row
+      .five.columns
+        %fieldset
+          %legend Attendance Commitment
+          %p
+            Are you willing and
+            %b able to attend
+            all team meetings? If so, please check the box below.
+
+          .row.input
+            = checkbox_block f, :will_attend_meetings, 'Yes, I will attend'
+
+      .five.columns
+        %fieldset
+          %legend Lifestyle Commitment
+          %p
+            Are you currently
+            %b living a lifestyle
+            of biblical leadership? If so, please check the box below.
+          .row.input
+            = checkbox_block f, :living_lifestyle, 'Yes, I am.'

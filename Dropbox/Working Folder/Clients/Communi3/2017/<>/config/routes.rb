@@ -60,6 +60,7 @@ Rails.application.routes.draw do
         # delete "meetings/:meeting_id/:person_id" => 'meeting_attendees#destroy', :as => 'meeting_attendee'
 
         resources :payments, controller: 'weekends/payments', as: :payments
+        resources :team_apps, controller: 'weekends/team_apps', as: :team_apps
 
         #
         member do

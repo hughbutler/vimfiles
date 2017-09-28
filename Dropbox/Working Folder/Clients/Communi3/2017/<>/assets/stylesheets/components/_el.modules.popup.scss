@@ -12,5 +12,9 @@
 
         padding: 40px;
         z-index: 200;
+
+        .button.topRight {
+            @include absolute(top 22px right 20px);
+        }
     }
 }
