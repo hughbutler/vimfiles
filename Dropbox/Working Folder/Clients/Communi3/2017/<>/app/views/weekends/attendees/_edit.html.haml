@@ -15,7 +15,18 @@
             %li{ data: { "meeting-id": "#{meeting.id}", "person-id": "#{@attendee.person.id}" } }
               = link_to "<span class='icon checkbox #{'checked' if meeting.has_attendee?(@attendee.person)}'></span> MEETING #{number_to_word(i+1).upcase}".html_safe,
                 toggle_attendance_weekend_meeting_path(@weekend.id, meeting.id, person_id: @attendee.person.id, format: :json),
-                class: 'remote'
+                class: 'remote attendanceToggler'
+
+      %fieldset
+        %legend Remove from weekend?
+
+        %p
+          If you would like to remove #{@attendee.person} from this weekend, it will delete their records. Are you sure?
+          = link_to "Yes, I understand. Remove #{@attendee.person} from attendance.",
+            weekend_attendee_path(@weekend , @attendee),
+            method: 'delete',
+            "data-confirm": 'Are you sure?',
+            class: 'remote'
 
     .four.columns
       %fieldset

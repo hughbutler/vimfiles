@@ -41,6 +41,7 @@ for( var i = 0; i < links.length; i++ ) {
             if (xhr.readyState === DONE) {
                 if (xhr.status === OK) {
                   var json = JSON.parse(xhr.responseText);
+                  alert('h');
                   // var matches = document.querySelectorAll('*[data-meeting-id="'+json['meeting_id']+'"][data-person-id="'+json['person_id']+'"]');
                   //
                   // for(var i=0; i<matches.length; i++) {

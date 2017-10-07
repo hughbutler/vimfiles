@@ -1,7 +1,8 @@
 %fieldset
   %legend
-    = weekend.title
-    #{weekend.theme} #{link_to 'edit', [:edit, weekend] if can_edit_weekend? weekend, 'rector', false}
+    = link_for weekend.title, weekend_meetings_path(weekend), :class => 'button_link' if has_access? ['core','leader','rector'], false
+    -# = weekend.title
+    -# #{weekend.theme} #{link_to 'edit', [:edit, weekend] if can_edit_weekend? weekend, 'rector', false}
 
   .dates
     = render_calendar_for(weekend.start_date)

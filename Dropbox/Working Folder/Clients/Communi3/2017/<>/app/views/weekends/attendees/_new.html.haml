@@ -1,6 +1,6 @@
 .innerPopup
-  = form_for @weekend.team_apps.new do |f|
-    = f.hidden_field :person_id, value: 'lkjs'
+  = form_for @weekend.team_apps.new, remote: false do |f|
+    = f.hidden_field :person_id, value: @attendee.person_id
 
     %h1{:style => "margin: 0 0 5px;"}= name_of @attendee.person
     = submit_button 'Add To Weekend', 'topRight'

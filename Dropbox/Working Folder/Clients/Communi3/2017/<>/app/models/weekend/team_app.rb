@@ -16,6 +16,7 @@ class Weekend::TeamApp < ApplicationRecord
     belongs_to :person
     belongs_to :weekend
     validates_presence_of :person_id, :weekend_id
+    validates_uniqueness_of :person_id, scope: [:weekend_id]
 
     scope :gender, lambda { |gender| where('people.gender = ?', gender).joins(:person) }
 

@@ -1,4 +1,5 @@
 class Weekends::AttendeesController < Weekends::CommonController
+    before_filter :set_attendee, only: [:edit, :update, :destroy]
 
     def index
         @team = @weekend.attendees.team.joins(:person).order('people.last_name ASC, people.first_name ASC')
@@ -6,8 +7,7 @@ class Weekends::AttendeesController < Weekends::CommonController
 
     def roster
         @event = Event.find(params[:event_id])
-        @team = @event.event_attendees.team.joins(:person).order('last_name, first_name')
-
+        @team = @event.event_attendees.team.joins(:person).order('last_name, first_name') 
         respond_to do |format|
             format.xls
         end
@@ -27,7 +27,6 @@ class Weekends::AttendeesController < Weekends::CommonController
     end
 
     def edit
-        @attendee = @weekend.attendees.find(params[:id])
     end
 
     # POST /event_attendees
@@ -51,8 +50,6 @@ class Weekends::AttendeesController < Weekends::CommonController
     # PUT /event_attendees/1
     # PUT /event_attendees/1.xml
     def update
-        @attendee = @weekend.attendees.find(params[:id])
-        # expire_caches
 
         @attendee.update(allowed_params)
         # respond_to do |format|
@@ -84,28 +81,32 @@ class Weekends::AttendeesController < Weekends::CommonController
 
     end
 
-    # DELETE /event_attendees/1
-    # DELETE /event_attendees/1.xml
     def destroy
-        @event_attendee = EventAttendee.find(params[:id])
-        if @event_attendee.position_id.nil?
-            @event_attendee.person.member_status_id = 1
-            @event_attendee.person.save
-        end
-        @team_app = TeamApp.find_by_person_id_and_event_id(@event_attendee.person_id, @event_attendee.event_id)
-        #@team_app.update_attributes(:is_scheduled => false)
-        @team_app.try(:destroy)
-        @event_attendee.destroy
-        expire_caches
+        @team_app = @weekend.team_apps.where(person_id: @attendee.person_id).take
 
-        respond_to do |format|
-            format.html { redirect_to(event_event_attendees_url(params[:event_id])) }
-            format.xml  { head :ok }
-            format.js
+        ActiveRecord::Base.transaction do
+            @team_app.destroy
+            @attendee.destroy
         end
+
+        flash[:notice] = "#{@attendee.person} has been removed from the weekend."
+
+        # if @event_attendee.position_id.nil?
+        #     @event_attendee.person.member_status_id = 1
+        #     @event_attendee.person.save
+        # end
+        # @team_app = TeamApp.find_by_person_id_and_event_id(@event_attendee.person_id, @event_attendee.event_id)
+        # #@team_app.update_attributes(:is_scheduled => false)
+        # @team_app.try(:destroy)
+        # @event_attendee.destroy
+        render json: {}
     end
 
     private
+
+    def set_attendee
+        @attendee = @weekend.attendees.find(params[:id])
+    end
 
     def allowed_params
         params.require(:weekend_attendee).permit( :position_id, :aux_position_id,
